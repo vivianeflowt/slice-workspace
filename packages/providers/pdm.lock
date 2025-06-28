@@ -5,10 +5,30 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:55770186a859f16681db2be4838c399a050e4966a9dedd00bbc5eaa0fc972eb2"
+content_hash = "sha256:209405e111db3e6e500dc9652b4259a73082e228a2d6332d3e92cf45a578a7cf"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
+
+[[package]]
+name = "accelerate"
+version = "1.8.1"
+requires_python = ">=3.9.0"
+summary = "Accelerate"
+groups = ["default"]
+dependencies = [
+    "huggingface-hub>=0.21.0",
+    "numpy<3.0.0,>=1.17",
+    "packaging>=20.0",
+    "psutil",
+    "pyyaml",
+    "safetensors>=0.4.3",
+    "torch>=2.0.0",
+]
+files = [
+    {file = "accelerate-1.8.1-py3-none-any.whl", hash = "sha256:c47b8994498875a2b1286e945bd4d20e476956056c7941d512334f4eb44ff991"},
+    {file = "accelerate-1.8.1.tar.gz", hash = "sha256:f60df931671bc4e75077b852990469d4991ce8bd3a58e72375c3c95132034db9"},
+]
 
 [[package]]
 name = "annotated-types"

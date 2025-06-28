@@ -64,3 +64,5 @@ find . -type f -name "*.sh" -exec chmod +x {} \; -print
 # docker rm -f $(docker ps -aq)
 # docker system prune -a -f --volumes
 # find . -type d -name ".git" -exec rm -rf {} +
+
+# sudo sysctl -w net.mptcp.enabled=1

@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional
 
 import torch
 from transformers import AutoConfig, AutoModel, AutoTokenizer
+from server.constants import MODEL_CACHE_DIR, DEFAULT_MODELS, MAX_DOWNLOAD_RETRIES
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
@@ -233,6 +234,8 @@ def download_default_models() -> Dict[str, bool]:
     Returns:
         Dicionário com status de download de cada modelo
     """
+    from server.utils.model_downloader import ModelDownloader
+    model_downloader = ModelDownloader()
     print("🚀 Iniciando download dos modelos padrão...")
     # Garantir que o diretório de cache existe (padrão Slice/ALIVE)
     Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
@@ -250,7 +253,7 @@ def download_default_models() -> Dict[str, bool]:
                 print(f"  🔄 Tentativa {attempt + 1}/{MAX_DOWNLOAD_RETRIES}")
                 time.sleep(2)  # Pausa entre tentativas
 
-            success = download_model(model_name)
+            success = model_downloader.download_model(model_name)
             if success:
                 break
 

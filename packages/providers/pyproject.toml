@@ -32,6 +32,7 @@ dependencies = [
     "psutil>=5.9.0",  # Para informações do sistema
     "pyyaml>=6.0",    # Para parsing do Taskfile nos testes
     "tomli>=2.0.0; python_version < '3.11'",  # Para parsing do pyproject.toml
+    "accelerate>=1.8.1",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

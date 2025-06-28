@@ -4,7 +4,8 @@
 import os
 import sys
 from pathlib import Path
-#from huggingface_hub import hf_hub_download  # Exemplo para modelos do Hugging Face
+import requests
+from huggingface_hub import hf_hub_download
 
 # Ajuste dinâmico do sys.path para garantir importação correta
 CURRENT_DIR = Path(__file__).resolve().parent
@@ -23,13 +24,23 @@ def download_model(url, dest_path):
         print(f"Modelo já existe: {dest_path}")
         return
     print(f"Baixando modelo de {url} para {dest_path} ...")
-    # Exemplo de download (ajuste para sua fonte real)
-    # with requests.get(url, stream=True) as r:
-    #     r.raise_for_status()
-    #     with open(dest_path, 'wb') as f:
-    #         for chunk in r.iter_content(chunk_size=8192):
-    #             f.write(chunk)
-    print(f"Download simulado concluído: {dest_path}")
+    try:
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            total = int(r.headers.get('content-length', 0))
+            with open(dest_path, 'wb') as f:
+                downloaded = 0
+                for chunk in r.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total:
+                            done = int(50 * downloaded / total)
+                            sys.stdout.write(f"\r[{'=' * done}{' ' * (50-done)}] {downloaded/1024/1024:.2f}MB/{total/1024/1024:.2f}MB")
+                            sys.stdout.flush()
+        print(f"\nDownload concluído: {dest_path}")
+    except Exception as e:
+        print(f"Erro ao baixar {url}: {e}")
 
 def main():
     """Função principal para download dos modelos."""
@@ -41,51 +52,30 @@ def main():
 
     print(f"📁 Diretório de modelos: {MODELS_DIR}")
 
-    # TODO: Implementar download real do Command-R
-    # Por enquanto, apenas cria um arquivo placeholder
-    placeholder_file = models_path / "command-r-placeholder.txt"
-    with open(placeholder_file, 'w') as f:
-        f.write("Placeholder para modelo Command-R\n")
-        f.write("CPU-only configuration\n")
+    # Download dos shards safetensors e tokenizer via huggingface_hub
+    repo_id = "CohereLabs/c4ai-command-r-v01"
+    files = [
+        "pytorch_model-00001-of-00002.safetensors",
+        "pytorch_model-00002-of-00002.safetensors",
+        "tokenizer.model",
+        "config.json"
+    ]
+    for fname in files:
+        try:
+            print(f"Baixando {fname} do HuggingFace...")
+            local_path = hf_hub_download(repo_id=repo_id, filename=fname, cache_dir=MODELS_DIR, token=os.environ.get("HUGGINGFACE_TOKEN"))
+            print(f"✔️  {fname} salvo em {local_path}")
+        except Exception as e:
+            print(f"Erro ao baixar {fname}: {e}")
 
-    print("✅ Modelos Command-R configurados com sucesso!")
-    print("📋 Configuração: CPU-only (otimizado para performance)")
+    print("✅ Modelos Command-R baixados e prontos para uso!")
+    print("📋 Configuração: safetensors (Transformers, uso enterprise)")
 
     return 0
 
 if __name__ == "__main__":
     prepare_model_dirs()
-    # Modelos menores (ativos)
-    modelos = [
-        {
-            "nome": "command-r-7b",
-            "url": "URL_DO_MODELO_7B",
-            "dest": os.path.join(MODELS_DIR, "command-r-7b.bin")
-        },
-        {
-            "nome": "command-r-35b-quant",
-            "url": "URL_DO_MODELO_35B_QUANT",
-            "dest": os.path.join(MODELS_DIR, "command-r-35b-quant.bin")
-        }
-    ]
-    # Modelos grandes (deixe comentado para ativar depois)
-    # modelos += [
-    #     {
-    #         "nome": "command-r-plus-104b",
-    #         "url": "URL_DO_MODELO_104B",
-    #         "dest": os.path.join(MODELS_DIR, "command-r-plus-104b.bin")
-    #     },
-    #     {
-    #         "nome": "command-a-111b",
-    #         "url": "URL_DO_MODELO_111B",
-    #         "dest": os.path.join(MODELS_DIR, "command-a-111b.bin")
-    #     }
-    # ]
-    for m in modelos:
-        try:
-            download_model(m["url"], m["dest"])
-        except Exception as e:
-            print(f"Erro ao baixar {m['nome']}: {e}")
+    main()
 
 # Para ativar modelos grandes, basta descomentar os blocos acima e ajustar as URLs.
 # Use comentários para documentar decisões incrementais e facilitar expansão plugável.

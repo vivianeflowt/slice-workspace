@@ -48,8 +48,12 @@ tasks:
 
   validate:
     desc: "🔍 Validação completa (lint + test + health)"
+    deps:
+      - lint
+      - test
+      - health
     cmds:
-      - python3 scripts/validate.py
+      - echo "✅ Validação completa (lint, test, health) concluída com sucesso!"
 
   health:
     desc: "❤️  Health check do servidor"

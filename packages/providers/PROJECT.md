@@ -1,6 +1,6 @@
-# 📘 `PROJECT.md` — Servidor Local de Modelos NLP (HuggingFace, CPU-only, Estilo OpenAI)
+# 📘 `PROJECT.md` — Servidor Local de Modelos Diversos (HuggingFace, Estilo OpenAI)
 
-> Estrutura para rodar modelos de NLP (foco em português) fora do Ollama, 100% em CPU, compatível com a API da OpenAI. Modular, leve e fácil de estender.
+> Estrutura para rodar modelos de NLP (foco em português) e outros necessários.
 
 ---
 
@@ -8,8 +8,9 @@
 
 - Servir modelos da Hugging Face não disponíveis no Ollama.
 - Garantir compatibilidade com payloads OpenAI (onde fizer sentido).
-- Operar totalmente em CPU, inclusive em máquinas com GPU.
+- Operar totalmente usando CPU se fizer sentido.
 - Separar funções por *tipo de tarefa*, e não por modelo.
+- Criar aliases para modelos de forma a poder deixar mais semantico
 
 ---
 
@@ -30,9 +31,8 @@
 ```
 server/
 ├── api/                # Endpoints FastAPI por função (classify, embed, etc)
-│   ├── classify.py
-│   ├── embed.py
-│   └── pos_tag.py
+│   ├── chat.py
+│   ├── models.py
 ├── providers/          # Implementações específicas dos modelos
 │   ├── classify/
 │   ├── embed/
@@ -150,65 +150,6 @@ Cada função é como uma **tomada universal**: o agente IA (ou humano) pluga o 
 
 ---
 
-## 📍 TODO futuro
-
-- [ ] Adicionar logging por agente
-- [ ] Integração com roteador inteligente (model routing)
-- [ ] Suporte a RAG leve (via context injection)
-- [ ] Armazenamento local de histórico (DuckDB compatível)
-- [ ] Filtro semântico de entrada (pré-processamento)
-
----
-
-## 📁 Diretórios externos opcionais
-
-| Diretório | Uso |
-| --- | --- |
-| `models/` | Pode ser externo via env (`MODELS_PATH`) |
-| `outputs/` | Logs, resultados, cache (`OUTPUT_PATH`) |
-
----
-
-## 🔐 Segurança
-
-- Requisições limitadas por IP (opcional)
-- Logging de prompt (opcional, por agente)
-- Headers de CORS configurados
-- Autenticação por token opcional para endpoints
-
----
-
-## 📎 Exemplo de uso real (no terminal)
-
-```bash
-curl http://localhost:5115/v1/classifications   -H "Content-Type: application/json"   -d '{
-    "model": "classifier-pt-mini",
-    "input": "o atendimento foi horrível",
-    "options": { "top_p": 0.8 }
-  }'
-```
-
-Resposta esperada:
-
-```json
-{
-  "label": "negativo",
-  "confidence": 0.92,
-  "model": "classifier-pt-mini"
-}
-```
-
----
-
-## 🗂️ Modo dev (para agentes)
-
-> Agentes externos podem acessar esse servidor como se fosse uma OpenAI local.
-
-- Endpoint: `http://localhost:5115/v1/...`
-- Payload: igual ao OpenAI
-- Pode rodar em múltiplas máquinas com modelos distintos
-
----
 
 ## 📦 Lista de modelos suportados (iniciais)
 

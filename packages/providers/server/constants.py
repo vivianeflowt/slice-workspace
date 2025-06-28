@@ -39,23 +39,9 @@ DEFAULT_MODELS: Dict[str, str] = {
     "am-thinking-v1": "a-m-team/AM-Thinking-v1",  # LLM 32B reasoning
 }
 
-# Modelos alternativos disponíveis
-ALTERNATIVE_MODELS: Dict[str, List[str]] = {
-    "classify": [
-        "neuralmind/bert-base-portuguese-cased",
-        "rufimelo/Legal-BERTimbau-base",
-        "pierreguillou/bert-base-cased-pt-lenerbr",
-    ],
-    "embed": [
-        "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-        "sentence-transformers/distiluse-base-multilingual-cased",
-        "neuralmind/bert-base-portuguese-cased",
-    ],
-    "pos_tag": [
-        "pierreguillou/bert-base-cased-pt-lenerbr",
-        "neuralmind/bert-base-portuguese-cased",
-    ],
-}
+# Modelos alternativos disponíveis (aliases)
+# TODO: adicionar mais modelos conforme necessário
+
 
 # Cache de modelos (em segundos)
 MODEL_CACHE_TTL = 3600  # 1 hora
@@ -95,22 +81,6 @@ for d in [BASE_DIR, MODELS_DIR, CACHE_DIR, LOGS_DIR]:
 # Timeout padrão (em segundos)
 DEFAULT_TIMEOUT = 120
 
-# =============================================================================
-# CONFIGURAÇÕES OPENAI API COMPATIBILITY
-# =============================================================================
-
-# Endpoints compatíveis com OpenAI
-OPENAI_COMPATIBLE_ENDPOINTS: Dict[str, str] = {
-    "/v1/chat/completions": "/api/v1/classify",
-    "/v1/embeddings": "/api/v1/embed",
-}
-
-# Modelos mapeados para compatibilidade OpenAI
-OPENAI_MODEL_MAPPING: Dict[str, str] = {
-    "gpt-3.5-turbo": "classify",
-    "text-embedding-ada-002": "embed",
-    "text-davinci-003": "classify",
-}
 
 # =============================================================================
 # CONFIGURAÇÕES DE LOGGING E DEBUG

@@ -1,49 +1,40 @@
 """
-🤖 Model Downloader - Slice/ALIVE Providers Server
-Download e gerenciamento de modelos seguindo os princípios fundamentais do ecossistema.
+Model Downloader for Slice/ALIVE Providers Server
 
-Aderência aos CONCEPTS.md:
-- 🟦 Incrementalismo: Downloads incrementais com validação contínua
-- 💻 Baixo Recurso: CPU-only, prioridade baixa, offline-first  
-- 🔌 Plug-and-Play: Auto-configuração e diretórios automáticos
-- 🎯 Responsabilidade Única: Apenas download e cache de modelos
-- ✅ Validação Forte: Verificação de arquivos sem carregamento na RAM
-- 🚀 Restauração Rápida: Downloads resumíveis e cache resiliente
-- 📖 Justificativa Real: Cada decisão técnica documentada
-- 🔧 Isolamento por Camada: Separação clara entre download, validação e uso
+A production-ready model management system following OpenAI standards.
+Supports model aliases, robust error handling, and resource-efficient downloads.
 
-Características técnicas:
-- Downloads sequenciais (1 modelo por vez) para evitar sobrecarga
-- Validação sem carregamento em memória (apenas verificação de arquivos)
-- Prioridade baixa de CPU e I/O para não travar o sistema
-- Cache local em /media/data para produção
-- Logs estruturados para troubleshooting
-- Aliases simples para facilitar uso
+Features:
+- OpenAI-compatible model naming (gpt-4-like aliases)
+- Resource-constrained downloads (CPU-only, low priority)
+- Comprehensive error handling and logging
+- Model validation without memory loading
+- Incremental downloads with resume capability
 """
 
 import asyncio
+import hashlib
 import json
 import logging
 import os
 import time
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Union
 from dataclasses import dataclass, field
 
 import psutil
 import torch
-from huggingface_hub import snapshot_download
-from transformers import AutoConfig
+from huggingface_hub import snapshot_download, HfApi
+from transformers import AutoConfig, AutoTokenizer
 
-# 🟦 Incrementalismo: Configuração incremental do ambiente
-# CPU-only obrigatório (Baixo Recurso & Custo Mínimo)
+# Configure environment for CPU-only operation
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 os.environ["MKL_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["OMP_NUM_THREADS"] = "1"
 
-# 📋 Logging estruturado para troubleshooting (Isolamento por Camada)
+# Setup logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -52,15 +43,16 @@ logger = logging.getLogger(__name__)
 
 
 class ModelType(str, Enum):
-    """Tipos de modelos seguindo padrão Slice/ALIVE."""
-    EMBEDDING = "embedding"
-    CLASSIFICATION = "classification" 
-    GENERATION = "generation"
+    """OpenAI-compatible model types."""
+    TEXT_EMBEDDING = "text-embedding"
+    TEXT_CLASSIFICATION = "text-classification"
+    TEXT_GENERATION = "text-generation"
+    CHAT_COMPLETION = "chat-completion"
     INSTRUCT = "instruct"
 
 
 class DownloadStatus(str, Enum):
-    """Status de download para rastreabilidade (Validação Contínua)."""
+    """Download status enumeration."""
     PENDING = "pending"
     DOWNLOADING = "downloading"
     COMPLETED = "completed"
@@ -71,36 +63,25 @@ class DownloadStatus(str, Enum):
 
 @dataclass
 class ModelSpec:
-    """
-    Especificação de modelo seguindo princípios Slice/ALIVE.
-    
-    Aderência aos conceitos:
-    - Responsabilidade Única: Apenas metadados do modelo
-    - Validação Forte: Campos obrigatórios e tipados
-    - Justificativa Real: Cada campo tem propósito documentado
-    """
-    id: str  # Identificador único e simples (ex: "embedding-small")
-    name: str  # Nome legível para humanos
-    model_type: ModelType  # Categoria funcional
-    huggingface_id: str  # ID real no HuggingFace Hub
-    description: str = ""  # Descrição técnica
-    context_length: int = 512  # Tamanho do contexto (importante para CPU limitada)
-    parameters: str = "unknown"  # Número de parâmetros (ex: "23M", "109M")
-    aliases: List[str] = field(default_factory=list)  # Aliases simples
-    required_files: Set[str] = field(default_factory=lambda: {"config.json"})  # Arquivos essenciais
-    
+    """Model specification with OpenAI-like structure."""
+    id: str
+    name: str
+    model_type: ModelType
+    huggingface_id: str
+    description: str = ""
+    context_length: int = 4096
+    parameters: str = "unknown"
+    aliases: List[str] = field(default_factory=list)
+    required_files: Set[str] = field(default_factory=lambda: {"config.json"})
+
     def __post_init__(self):
-        """Validação automática pós-inicialização."""
-        self.required_files.add("config.json")  # Sempre obrigatório
+        """Add default required files."""
+        self.required_files.update({"config.json"})
 
 
-@dataclass  
+@dataclass
 class DownloadResult:
-    """
-    Resultado estruturado de download (Validação Forte).
-    
-    Facilita troubleshooting e automação incrementais.
-    """
+    """Download operation result."""
     model_id: str
     status: DownloadStatus
     message: str
@@ -208,13 +189,8 @@ class ResourceManager:
             torch.set_num_threads(1)
             torch.set_num_interop_threads(1)
 
-            # Set CPU-only mode (updated for PyTorch 2.1+)
-            try:
-                torch.set_default_dtype(torch.float32)
-                torch.set_default_device('cpu')
-            except AttributeError:
-                # Fallback for older PyTorch versions
-                torch.set_default_tensor_type("torch.FloatTensor")
+            # Set CPU-only mode
+            torch.set_default_tensor_type("torch.FloatTensor")
 
             # Configure HuggingFace Hub settings
             os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = "600"

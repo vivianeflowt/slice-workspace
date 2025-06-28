@@ -92,9 +92,6 @@ Ao criar um novo módulo, documente e valide cada função antes de integrar ao 
 ### Justificativa Real
 - Exemplo: Escolha de biblioteca documentada com benchmark e motivo.
 
-### Banimento de Claude 4
-- Exemplo: Qualquer PR sugerindo Claude 4 é rejeitado automaticamente.
-
 ### Validação Antes da Padronização
 - Exemplo: Nova automação só é oficializada após POC e registro de aprendizados.
 

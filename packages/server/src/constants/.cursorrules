@@ -1,0 +1,9 @@
+# Conceito do diretório constants
+#
+# Este diretório deve concentrar todas as constantes do sistema, agrupadas por contexto e categoria (ex: erros, limites, nomes de eventos, etc).
+# Cada grupo de constantes deve ser precedido de um comentário explicando seu contexto e finalidade.
+#
+# Boas práticas:
+# - Não misture constantes de contextos diferentes no mesmo arquivo.
+# - Comente claramente cada grupo de constantes.
+# - Mantenha nomes descritivos e padronizados.

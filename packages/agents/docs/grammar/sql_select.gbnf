@@ -1,0 +1,13 @@
+# Grammar para SELECT SQL simples
+# Aceita apenas comandos SELECT básicos
+
+root ::= select_stmt
+select_stmt ::= 'SELECT' space columns space 'FROM' space table semicolon
+columns ::= column (comma space column)*
+column ::= name
+comma ::= ','
+table ::= name
+name ::= char+
+char ::= [a-zA-Z0-9_]
+space ::= ' '
+semicolon ::= ';'

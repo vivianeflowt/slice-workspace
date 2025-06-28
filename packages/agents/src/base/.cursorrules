@@ -1,0 +1,7 @@
+# .cursorrules — @/base
+
+- Use esta pasta para classes abstratas que definem contratos e interfaces para o projeto.
+- Exemplos: BaseService, AbstractRepository.
+- Documente métodos obrigatórios e padrões de extensão.
+- Explique quando criar uma nova abstração e como garantir compatibilidade entre implementações.
+- Sempre que criar/alterar uma abstração, registre exemplos e decisões aqui.

@@ -1,0 +1,8 @@
+# Grammar para UUID padrão
+# Aceita apenas UUIDs do tipo xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+root ::= hex8 '-' hex4 '-' hex4 '-' hex4 '-' hex12
+hex8 ::= hex{8}
+hex4 ::= hex{4}
+hex12 ::= hex{12}
+hex ::= [a-fA-F0-9]

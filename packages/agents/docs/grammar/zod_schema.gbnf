@@ -1,0 +1,11 @@
+# Grammar para schema Zod simples em JSON
+# Aceita apenas objetos do tipo { "campo": "tipo" }
+
+root ::= object
+object ::= '{' pair_list? '}'
+pair_list ::= pair (',' pair)*
+pair ::= string ':' type
+string ::= '"' chars '"'
+chars ::= char*
+char ::= [^"\\] | '\\"' | '\\n' | '\\t' | '\\r' | '\\\\'
+type ::= '"string"' | '"number"' | '"boolean"' | '"date"' | '"array"' | '"object"'

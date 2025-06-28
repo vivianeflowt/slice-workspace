@@ -1,0 +1,7 @@
+# .cursorrules — @/utils
+
+- Use esta pasta para funções puras, reutilizáveis e de responsabilidade única.
+- Não dependa de estado global, side effects ou contexto externo.
+- Exemplos: parseDate, sanitizeString, calculateSum.
+- Documente padrões de criação, exemplos de uso e dicas para composição funcional.
+- Sempre registre novas funções utilitárias e decisões de padronização aqui.

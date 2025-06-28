@@ -1,0 +1,33 @@
+ignore
+node_modules
+dist
+build
+venv
+coverage
+lock
+ignore
+node_modules
+dist
+build
+venv
+coverage
+lock
+ignore
+node_modules
+dist
+build
+venv
+coverage
+lock
+logs
+data
+ignore
+node_modules
+dist
+build
+venv
+coverage
+lock
+__pycache__
+ Arquivos prettierignore criadosajustados em todos os pacotes ignorando corretamente dependências builds ambientes virtuais logs arquivos de lock e quando aplicável pastas específicas de cada stack ex public storybook __pycache__ etc
+Tudo pronto para rodar o Prettier sem afetar arquivos desnecessários em cada projeto

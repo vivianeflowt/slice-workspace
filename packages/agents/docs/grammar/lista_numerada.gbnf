@@ -1,0 +1,11 @@
+# Grammar para lista numerada simples
+# Aceita apenas listas do tipo: 1. Item 1\n2. Item 2\n...
+
+root ::= item_list
+item_list ::= item (newline item)*
+item ::= number '.' space text
+number ::= [1-9][0-9]*
+space ::= ' '
+text ::= char+
+char ::= [^\n]
+newline ::= '\n'

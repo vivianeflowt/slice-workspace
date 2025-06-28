@@ -1,0 +1,22 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Default template for PDM package"
+requires-python = "==3.10.*"
+dependencies = [
+    "pyqt5>=5.15.11",
+    "duckdb>=1.3.0",
+    "pyautogui>=0.9.54",
+]
+authors = [
+    {name = "Viviane Florido", email = "vivianeflowt@gmail.com"},
+]
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = false
+[tool.pdm.dependencies]
+fastapi = "*"
+uvicorn = "*"
+pyqt5 = "*"

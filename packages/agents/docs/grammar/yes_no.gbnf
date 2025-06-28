@@ -1,0 +1,4 @@
+# Grammar para respostas sim/não
+# Aceita apenas 'yes' ou 'no'
+
+root ::= 'yes' | 'no'

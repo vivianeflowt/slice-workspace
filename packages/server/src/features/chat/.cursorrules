@@ -1,0 +1,12 @@
+# Conceito do diretório feature/chat
+#
+# Este diretório representa um "slice" de funcionalidade, responsável por toda a lógica de chat de forma isolada e reutilizável.
+# Não define o roteamento HTTP completo, apenas os handlers, controladores e regras de negócio do chat.
+# O roteamento e integração HTTP são definidos no diretório /routes, permitindo desacoplar e até migrar esta feature para outro serviço/microserviço se necessário.
+# Pode haver algum acoplamento com providers e outras classes do ecossistema, mas levando essas dependências junto, a feature deve funcionar em qualquer serviço do ecossistema Slice, pois todos seguem a mesma estrutura base.
+#
+# Boas práticas:
+# - Mantenha a lógica de negócio isolada.
+# - Evite dependências diretas de infraestrutura externa ao ecossistema.
+# - Escreva testes para cada handler e controller.
+

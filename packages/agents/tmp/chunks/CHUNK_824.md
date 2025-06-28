@@ -1,0 +1,28 @@
+ server100 dev homeviviDocumentossliceprojectmanagerpackagesserver
+ nodemon
+homeviviDocumentossliceprojectmanagerpackagesserversrcprovidersaispeechSpeechProviderts9
+model zenumSPEECH_MODELSdecribe
+TypeError import_zodzenumdecribe is not a function
+at axios homeviviDocumentossliceprojectmanagerpackagesserversrcprovidersaispeechSpeechProviderts932
+at Objectanonymous homeviviDocumentossliceprojectmanagerpackagesserversrcprovidersaispeechSpeechProviderts4917
+at Module_compile nodeinternalmodulescjsloader152914
+at Objecttransformer homeviviDocumentossliceprojectmanagerpackagesservernode_modulespnpmtsx4194node_modulestsxdistregisterD2KMMyKpcjs21186
+at Moduleload nodeinternalmodulescjsloader127532
+at Module_load nodeinternalmodulescjsloader109612
+at Modulerequire nodeinternalmodulescjsloader129819
+at require nodeinternalmoduleshelpers18218
+at anonymous homeviviDocumentossliceprojectmanagerpackagesserversrcfeatureschatcontrollerts
+Cursor
+typescript
+  existing code 
+model zenumSPEECH_MODELSdescribe
+  existing code 
+User
+add yna descricao
+Cursor
+typescript
+  existing code 
+model zenumSPEECH_MODELSdescribeModelo de engine de voz a ser utilizado ex whisper vosk silero etc
+  existing code 
+Descrição adicionada ao campo model no schema
+Modelo de engine de voz a ser utilizado ex whisper vosk silero etc

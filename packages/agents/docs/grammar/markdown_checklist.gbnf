@@ -1,0 +1,12 @@
+# Grammar para checklist Markdown
+# Aceita apenas listas do tipo: - [ ] Item 1\n- [x] Item 2
+
+root ::= item_list
+item_list ::= item (newline item)*
+item ::= dash space box space text
+box ::= '[ ]' | '[x]'
+dash ::= '-'
+space ::= ' '
+text ::= char+
+char ::= [^\n]
+newline ::= '\n'

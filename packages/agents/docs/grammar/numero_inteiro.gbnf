@@ -1,0 +1,6 @@
+# Grammar para número inteiro
+# Aceita apenas inteiros positivos ou negativos
+
+root ::= sign? digits
+sign ::= '-' | '+'
+digits ::= [0-9]+

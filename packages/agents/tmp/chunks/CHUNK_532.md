@@ -1,0 +1,28 @@
+apppy
+aberto pra vc
+Cursor
+python
+from fastapi import FastAPI Body
+from transformers import pipeline AutoTokenizer AutoModelForSequenceClassification AutoModelForTokenClassification
+import torch
+import uvicorn
+app  FastAPI
+ Sentiment model multilingual mas funciona muito bem para pt
+sentiment_pipe  pipelinetextclassification modeltabularisaimultilingualsentimentanalysis
+ Paraphrase model pt
+paraphrase_tokenizer  AutoTokenizerfrom_pretrainedPrompsitparaphrasebertpt
+paraphrase_model  AutoModelForSequenceClassificationfrom_pretrainedPrompsitparaphrasebertpt
+def paraphrase_scorephrase_a phrase_b
+inputs  paraphrase_tokenizerphrase_a phrase_b return_tensorspt
+logits  paraphrase_modelinputslogits
+soft  torchnnSoftmaxdim1
+probs  softlogitstolist0
+return not_paraphrase probs0 paraphrase probs1
+ NER model pt SOTA
+ner_tokenizer  AutoTokenizerfrom_pretrainedLucianobertimbaubaselener_br
+ner_model  AutoModelForTokenClassificationfrom_pretrainedLucianobertimbaubaselener_br
+ner_pipe  pipelinetokenclassification modelner_model tokenizerner_tokenizer aggregation_strategysimple
+apppostsentiment
+def sentimenttext str  Body embedTrue
+result  sentiment_pipetext
+return result result

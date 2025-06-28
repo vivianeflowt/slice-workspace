@@ -1,0 +1,6 @@
+# .cursorrules — @/lib
+
+- Use esta pasta para classes que abstraem integrações, I/O ou recursos externos.
+- Exemplos: HttpClient, FileStorage, DatabaseAdapter.
+- Documente padrões de encapsulamento, exemplos de uso e decisões de design.
+- Registre dicas para facilitar manutenção e extensão das integrações.

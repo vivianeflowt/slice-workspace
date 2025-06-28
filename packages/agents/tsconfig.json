@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2022",
+    "module": "commonjs",
+    "rootDir": ".",
+    "moduleResolution": "node10",
+    "types": ["node", "vitest"],
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "noEmitOnError": true,
+    "preserveConstEnums": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "dist"]
+}

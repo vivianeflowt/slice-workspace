@@ -1,0 +1,9 @@
+# Grammar para e-mail simples
+# Aceita apenas e-mails do tipo usuario@dominio.com
+
+root ::= local '@' domain
+local ::= char+
+domain ::= name '.' tld
+name ::= char+
+tld ::= [a-zA-Z]{2,}
+char ::= [a-zA-Z0-9._-]

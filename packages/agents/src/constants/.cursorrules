@@ -1,0 +1,6 @@
+# .cursorrules — @/constants
+
+- Use esta pasta para definir constantes nomeadas (nunca magic numbers ou strings soltas).
+- Exemplos: MAX_FILE_SIZE, DEFAULT_TIMEOUT, API_URL.
+- Documente convenções de nomenclatura e exemplos de uso.
+- Sempre registre novas constantes e decisões de padronização aqui.

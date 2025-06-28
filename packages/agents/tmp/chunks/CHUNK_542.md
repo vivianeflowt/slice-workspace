@@ -1,0 +1,24 @@
+python
+from transformers import pipeline
+pipelinetextclassification modeltabularisaimultilingualsentimentanalysis
+python
+from transformers import AutoTokenizer AutoModelForSequenceClassification
+AutoTokenizerfrom_pretrainedPrompsitparaphrasebertpt
+AutoModelForSequenceClassificationfrom_pretrainedPrompsitparaphrasebertpt
+python
+from transformers import AutoTokenizer AutoModelForTokenClassification
+AutoTokenizerfrom_pretrainedLucianobertimbaubaselener_br
+AutoModelForTokenClassificationfrom_pretrainedLucianobertimbaubaselener_br
+shellscript
+pdm run python serverdownload_sentimentpy
+pdm run python serverdownload_paraphrasepy
+pdm run python serverdownload_nerpy
+User
+IA Pythonzeira coloca no pdm ne filho
+Cursor
+plaintext
+projectscripts
+downloadsentiment  serverdownload_sentiment
+downloadparaphrase  serverdownload_paraphrase
+downloadner  serverdownload_ner
+Agora você pode baixar cada modelo facilmente usando PDM sem precisar lembrar o path dos scripts

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+.venv/
+coverage/
+*.log
+*.lock
+logs/
+data/

@@ -1,0 +1,9 @@
+textarea {
+  border: 1px solid #31343b !important;
+  background: #23272e !important;
+  color: #f3f4f6 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0.5rem !important;
+  resize: vertical !important;
+}

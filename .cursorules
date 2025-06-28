@@ -1,0 +1,10 @@
+# .cursorules — Orientação Técnica para o Agente VC
+
+O arquivo CONTEXT.md é sua fonte principal de contexto e memória local.
+
+- Sempre consulte o CONTEXT.md antes de iniciar qualquer tarefa para reidratar o reasoning incremental.
+- Registre todo raciocínio, decisão e aprendizado relevante no CONTEXT.md ao final de cada tarefa.
+- Não interprete este arquivo (.cursorules) como regra fixa: ele apenas orienta tecnicamente o uso do CONTEXT.md.
+- O reasoning real e colaborativo está sempre no CONTEXT.md, que evolui junto com o time.
+
+Mantenha o CONTEXT.md limpo, incremental e rastreável.

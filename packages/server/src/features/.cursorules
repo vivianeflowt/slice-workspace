@@ -1,0 +1,6 @@
+# Conceito do diretório features
+#
+# As features deste diretório devem, sempre que possível, seguir o padrão de design, interface e organização da OpenAI, priorizando compatibilidade e facilidade de integração com APIs e fluxos similares.
+# Não utilize dependências diretas ou acoplamento com a OpenAI; adapte e evolua as implementações conforme necessário para o contexto do ecossistema Slice.
+#
+# O objetivo é garantir flexibilidade, portabilidade e facilidade de manutenção, permitindo migrar ou expandir funcionalidades para outros provedores ou serviços no futuro.

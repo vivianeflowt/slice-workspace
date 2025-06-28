@@ -1,0 +1,10 @@
+# Grammar para bloco de código Markdown
+# Aceita apenas blocos do tipo ```js\n...\n```
+
+root ::= start lang newline code newline end
+start ::= '```'
+lang ::= [a-zA-Z]*
+newline ::= '\n'
+code ::= char*
+end ::= '```'
+char ::= [^]

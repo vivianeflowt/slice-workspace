@@ -1,0 +1,6 @@
+# Provider Ollama AI
+#
+# Este provider de IA estende a classe abstrata base (ex: BaseAIProvider), herdando contratos mínimos, métodos obrigatórios e validação de schemas via Zod.
+# Siga os padrões definidos em /src/base/.cursorrules para garantir consistência, segurança e integração correta.
+#
+# Use este espaço para observações ou regras específicas deste provider, se necessário.

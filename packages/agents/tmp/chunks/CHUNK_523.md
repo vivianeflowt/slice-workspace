@@ -1,0 +1,30 @@
+ Paraphrase model pt
+paraphrase_tokenizer  AutoTokenizerfrom_pretrainedPrompsitparaphrasebertpt
+paraphrase_model  AutoModelForSequenceClassificationfrom_pretrainedPrompsitparaphrasebertpt
+def paraphrase_scorephrase_a phrase_b
+inputs  paraphrase_tokenizerphrase_a phrase_b return_tensorspt
+logits  paraphrase_modelinputslogits
+soft  torchnnSoftmaxdim1
+probs  softlogitstolist0
+return not_paraphrase probs0 paraphrase probs1
+ NER model pt SOTA
+ner_tokenizer  AutoTokenizerfrom_pretrainedLucianobertimbaubaselener_br
+ner_model  AutoModelForTokenClassificationfrom_pretrainedLucianobertimbaubaselener_br
+ner_pipe  pipelinetokenclassification modelner_model tokenizerner_tokenizer aggregation_strategysimple
+apppostsentiment
+def sentimenttext str  Body embedTrue
+result  sentiment_pipetext
+return result result
+apppostparaphrase
+def paraphrasephrase_a str  Body phrase_b str  Body
+result  paraphrase_scorephrase_a phrase_b
+return result
+apppostner
+def nertext str  Body embedTrue
+result  ner_pipetext
+return result result
+ Para rodar uvicorn serverappapp host 0000 port 11001 reload
+if __name__  __main__
+uvicornrunserverappapp host0000 port11001 reloadTrue
+User
+path errado filho

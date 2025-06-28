@@ -1,0 +1,50 @@
+{
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "[typescript]": {
+        "editor.formatOnSave": false
+    },
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/vendor/**": true,
+        // "**/dist/**": true,
+        "**/build/**": true,
+        "**/.venv/**": true,
+        "**/.pdm/**": true,
+        "**/.pytest_cache/**": true,
+        "**/__pycache__/**": true,
+        "**/outputs/**": true,
+        "**/data/**": true,
+        "**/datasets/**": true,
+        "**/weights/**": true,
+        "**/checkpoints/**": true,
+        "**/logs/**": true,
+        "**/experiments/**": true,
+        "**/embeddings/**": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/vendor": true,
+        // "**/dist": true,
+        "**/build": true,
+        "**/.venv": true,
+        "**/.pdm": true,
+        "**/.pytest_cache": true,
+        "**/__pycache__": true,
+        "**/outputs": true,
+        "**/data": true,
+        "**/datasets": true,
+        "**/weights": true,
+        "**/checkpoints": true,
+        "**/logs": true,
+        "**/experiments": true,
+        "**/embeddings": true
+    },
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+}

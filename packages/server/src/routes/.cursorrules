@@ -1,0 +1,10 @@
+# Conceito do diretório routes
+#
+# Este diretório é responsável por conectar as features (funcionalidades) à aplicação principal, expondo endpoints, middlewares e regras de roteamento.
+# Atua como um "circuit breaker" e ponto central de integração, isolando falhas e desacoplando a lógica de negócio da interface HTTP/API.
+#
+# Boas práticas:
+# - Cada rota deve ser simples, clara e delegar a lógica para as features correspondentes.
+# - Evite lógica de negócio diretamente nas rotas.
+# - Utilize middlewares para autenticação, logging e tratamento de erros.
+# - Documente endpoints e fluxos relevantes.

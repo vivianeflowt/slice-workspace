@@ -1,0 +1,26 @@
+# Grammar para JSONC (JSON with Comments)
+# Aceita objetos JSON e comentários // ou /* */
+
+root ::= element
+
+# Elemento pode ser objeto, array ou comentário
+ element ::= object | array | comment
+
+object ::= '{' pair_list? '}'
+pair_list ::= pair (',' pair)*
+pair ::= string ':' value
+value ::= string | number | object | array | 'true' | 'false' | 'null' | comment
+array ::= '[' value_list? ']'
+value_list ::= value (',' value)*
+string ::= '"' chars '"'
+chars ::= char*
+char ::= [^"\\] | '\\"' | '\\n' | '\\t' | '\\r' | '\\\\'
+number ::= '-'? int frac? exp?
+int ::= '0' | [1-9][0-9]*
+frac ::= '.' [0-9]+
+exp ::= [eE][+-]?[0-9]+
+comment ::= line_comment | block_comment
+line_comment ::= '//' comment_text newline
+block_comment ::= '/*' comment_text '*/'
+comment_text ::= char*
+newline ::= '\n'

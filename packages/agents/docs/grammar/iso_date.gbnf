@@ -1,0 +1,7 @@
+# Grammar para data ISO (YYYY-MM-DD)
+# Aceita apenas datas no formato 2024-05-30
+
+root ::= year '-' month '-' day
+year ::= [0-9][0-9][0-9][0-9]
+month ::= [0-1][0-9]
+day ::= [0-3][0-9]

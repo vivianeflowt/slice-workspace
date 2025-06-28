@@ -1,0 +1,91 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.venv*/
+.env
+.env.*
+.pdm
+.pdm-python
+.pytest_cache/
+coverage*
+*.egg-info/
+*.pkl
+
+# Docker
+*.tar
+*.tar.gz
+*.img
+*.container
+docker-compose.override.yml
+
+# IDEs e SO
+.idea/
+# Versionar apenas arquivos de configuração do VSCode
+!.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.vscode/*.code-workspace
+.vscode/*.history
+.DS_Store
+Thumbs.db
+
+# Testes e relatórios
+test-results/
+playwright-report/
+blob-report/
+coverage/
+*.log
+
+# Arquivos grandes e modelos
+*.so
+*.bin
+*.onnx
+*.pth
+*.ckpt
+*.tar.gz
+*.zip
+*.pt
+*.model
+*.npz
+*.npy
+*.h5
+*.pb
+*.tflite
+*.wav
+*.mp3
+*.flac
+
+# Vendors e outputs
+vendor/
+outputs/
+data/
+datasets/
+weights/
+checkpoints/
+logs/
+experiments/
+embeddings/
+
+# Outros
+*.swp
+*.swo
+*.bak
+*.tmp
+
+temp/

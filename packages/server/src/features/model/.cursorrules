@@ -1,0 +1,10 @@
+# Conceito do diretório feature/model
+#
+# Este diretório representa um "slice" de funcionalidade, responsável por toda a lógica relacionada a modelos de IA de forma isolada e reutilizável.
+# Não define o roteamento HTTP completo, apenas os handlers, controladores e regras de negócio dos modelos.
+# O roteamento e integração HTTP são definidos no diretório /routes, permitindo desacoplar e até migrar esta feature para outro serviço/microserviço se necessário.
+#
+# Boas práticas:
+# - Mantenha a lógica de negócio isolada.
+# - Evite dependências diretas de infraestrutura.
+# - Escreva testes para cada handler e controller.

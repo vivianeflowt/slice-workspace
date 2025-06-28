@@ -1,0 +1,6 @@
+# .cursorrules — @/types
+
+- Use esta pasta para definir tipos, interfaces e contratos globais do projeto.
+- Exemplos: User, ApiResponse, ConfigOptions.
+- Documente padrões de extensão, utilitários de tipagem e exemplos de uso.
+- Sempre registre novas tipagens e decisões de padronização aqui.

@@ -1,0 +1,5 @@
+# Regras para o assistente Cursor/AI
+#
+# 1. Sempre que iniciar uma sessão ou reasoning, leia o CONTEXT.md para reidratar o contexto incremental do projeto.
+# 2. Nunca registre, armazene ou deixe informações de contexto neste arquivo.
+# 3. Este arquivo serve apenas para instruções de automação e comportamento do assistente, nunca para dumps de contexto ou reasoning.

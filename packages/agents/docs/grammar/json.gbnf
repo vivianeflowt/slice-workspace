@@ -1,0 +1,18 @@
+# Grammar para JSON simples
+# Aceita apenas objetos JSON com strings, números, booleanos e arrays simples
+
+root ::= object
+
+object ::= '{' pair_list? '}'
+pair_list ::= pair (',' pair)*
+pair ::= string ':' value
+value ::= string | number | object | array | 'true' | 'false' | 'null'
+array ::= '[' value_list? ']'
+value_list ::= value (',' value)*
+string ::= '"' chars '"'
+chars ::= char*
+char ::= [^"\\] | '\\"' | '\\n' | '\\t' | '\\r' | '\\\\'
+number ::= '-'? int frac? exp?
+int ::= '0' | [1-9][0-9]*
+frac ::= '.' [0-9]+
+exp ::= [eE][+-]?[0-9]+

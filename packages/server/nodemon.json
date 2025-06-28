@@ -1,0 +1,12 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json,yml,yaml,hbs",
+  "ignore": ["src/**/*.test.ts", "src/**/__tests__/**"],
+  "exec": "npx ts-node src/main.ts",
+  "env": {
+    "NODE_NO_WARNINGS": 1
+  },
+  "quiet": true,
+  "pollingInterval": 100,
+  "delay": 1
+}

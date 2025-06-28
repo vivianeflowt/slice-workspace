@@ -1,0 +1,63 @@
+[2025-06-18T02:17:32.766Z] Change detected in original file. Cleaning caches and temp directories...
+[2025-06-18T02:17:32.857Z] Chunks split and saved.
+[2025-06-18T02:17:32.857Z] ERROR: BRAINSTORM-RESULTS.md ausente - execute brainstorm.sh primeiro
+[2025-06-18T02:18:16.567Z] Chunks split and saved.
+[2025-06-18T02:18:16.575Z] Marks extracted from brainstorm.
+[2025-06-18T02:18:16.575Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T02:18:16.646Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T02:18:16.646Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T05:25:46.528Z] Chunks split and saved.
+[2025-06-18T05:25:46.535Z] Marks extracted from brainstorm.
+[2025-06-18T05:25:46.536Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T05:25:46.632Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T05:25:46.632Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T07:02:14.819Z] Chunks split and saved.
+[2025-06-18T07:02:14.831Z] Marks extracted from brainstorm.
+[2025-06-18T07:02:14.831Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T07:02:14.936Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T07:02:14.937Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T08:17:39.158Z] Chunks split and saved.
+[2025-06-18T08:17:39.169Z] Marks extracted from brainstorm.
+[2025-06-18T08:17:39.169Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T08:17:39.266Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T08:17:39.266Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T09:29:47.693Z] Chunks split and saved.
+[2025-06-18T09:29:47.699Z] Marks extracted from brainstorm.
+[2025-06-18T09:29:47.699Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T09:29:47.766Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T09:29:47.766Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T10:47:04.643Z] Chunks split and saved.
+[2025-06-18T10:47:04.650Z] Marks extracted from brainstorm.
+[2025-06-18T10:47:04.650Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T10:47:04.738Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T10:47:04.739Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T12:10:26.965Z] Chunks split and saved.
+[2025-06-18T12:10:26.971Z] Marks extracted from brainstorm.
+[2025-06-18T12:10:26.972Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T12:10:27.050Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T12:10:27.050Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T13:37:42.542Z] Chunks split and saved.
+[2025-06-18T13:37:42.549Z] Marks extracted from brainstorm.
+[2025-06-18T13:37:42.549Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T13:37:42.617Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T13:37:42.617Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T14:58:46.965Z] Chunks split and saved.
+[2025-06-18T14:58:46.971Z] Marks extracted from brainstorm.
+[2025-06-18T14:58:46.971Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T14:58:47.055Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T14:58:47.055Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T16:16:27.206Z] Chunks split and saved.
+[2025-06-18T16:16:27.213Z] Marks extracted from brainstorm.
+[2025-06-18T16:16:27.213Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T16:16:27.280Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T16:16:27.280Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T17:38:41.973Z] Chunks split and saved.
+[2025-06-18T17:38:41.980Z] Marks extracted from brainstorm.
+[2025-06-18T17:38:41.980Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T17:38:42.071Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T17:38:42.071Z] Adherence report saved in brainstorm_adherence_report.json.
+[2025-06-18T19:00:32.499Z] Chunks split and saved.
+[2025-06-18T19:00:32.506Z] Marks extracted from brainstorm.
+[2025-06-18T19:00:32.507Z] Marks saved in brainstorm_marks.json.
+[2025-06-18T19:00:32.582Z] Heatmap saved in relevance_heatmap.csv.
+[2025-06-18T19:00:32.583Z] Adherence report saved in brainstorm_adherence_report.json.

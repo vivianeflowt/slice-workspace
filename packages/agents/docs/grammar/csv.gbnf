@@ -1,0 +1,8 @@
+# Grammar para CSV simples
+# Aceita apenas linhas do tipo: valor1,valor2,valor3
+
+root ::= row (newline row)*
+row ::= value (',' value)*
+value ::= char+
+char ::= [^,\n]
+newline ::= '\n'

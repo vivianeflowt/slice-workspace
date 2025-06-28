@@ -1,0 +1,33 @@
+module.exports = {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './src/components/**/*.{js,jsx,ts,tsx}',
+    './src/pages/**/*.{js,jsx,ts,tsx}',
+    './src/routes/**/*.{js,jsx,ts,tsx}',
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+  safelist: [
+    'container',
+    'mx-auto',
+    'my-2',
+    'p-2',
+    'p-4',
+    'text-center',
+    'text-left',
+    'text-right',
+    'bg-primary',
+    'bg-secondary',
+    'bg-success',
+    'bg-danger',
+    'bg-warning',
+    'bg-info',
+    'rounded',
+    'rounded-lg',
+    'rounded-full',
+    'shadow',
+    'shadow-lg',
+  ],
+};

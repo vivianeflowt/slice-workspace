@@ -1,0 +1,6 @@
+# .cursorrules — @/config
+
+- Use esta pasta para classes de configuração centralizada do projeto.
+- Exemplos: AppConfig, DatabaseConfig.
+- Documente padrões de versionamento, importação/exportação e uso programático.
+- Registre decisões sobre estrutura de configuração e exemplos de uso.

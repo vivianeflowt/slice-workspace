@@ -1,0 +1,10 @@
+time20250604T045805158Z levelINFO sourcetypesgo130 msginference compute idGPU249efa139e61a5d804d4d124c7cc9ec7 librarycuda variantv12 compute89 driver128 nameNVIDIA GeForce RTX 4060 total76 GiB available59 GiB
+GIN 20250604  045812  200  437178s  10002  GET apitags
+GIN 20250604  045812  200  194747s  10002  GET apitags
+GIN 20250604  045812  200  165339s  10002  GET apitags
+GIN 20250604  045812  200  147221s  10002  GET apitags
+time20250604T045813286Z levelINFO sourcedownloadgo177 msgdownloading ff82381e2bea in 16 257 MB parts
+GIN 20250604  045822  500  10034541293s  10002  POST apipull
+GIN 20250604  045822  200  520922s  10002  GET apitags
+time20250604T045823155Z levelINFO sourcedownloadgo177 msgdownloading ef311de6af9d in 16 313 MB parts
+GIN 20250604  045832  500  10026830918s  10002  POST apipull

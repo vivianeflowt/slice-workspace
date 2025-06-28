@@ -1,0 +1,32 @@
+.DS_Store
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Arquivos grandes e modelos
+*.so
+*.bin
+*.onnx
+*.pth
+*.ckpt
+*.tar.gz
+*.zip
+*.pt
+*.model
+*.npz
+*.npy
+*.h5
+*.pb
+*.tflite
+*.wav
+*.mp3
+*.flac

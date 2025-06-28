@@ -1,0 +1,9 @@
+# Conceito do diretório base
+#
+# Este diretório contém a base das classes abstratas e interfaces gerais do ecossistema Slice.
+# Serve para definir contratos, padrões e compatibilidade entre diferentes partes da aplicação, incluindo, mas não se limitando, a providers de IA.
+# Exemplos: BaseAIProvider, interfaces de serviços, contratos de dados, middlewares genéricos, etc.
+#
+# Todo provider de IA, serviço ou componente compartilhado deve herdar ou implementar as abstrações aqui definidas para garantir integração e evolução consistente.
+#
+# Use este template como referência para os .cursorrules de cada base abstrata ou interface compartilhada.

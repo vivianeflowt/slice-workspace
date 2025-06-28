@@ -1,0 +1,11 @@
+# Conceito do diretório utils
+#
+# Este diretório deve conter apenas funções puras, utilitárias e de uso geral, sem dependências de contexto de negócio ou efeitos colaterais.
+# As funções aqui implementadas devem ser robustas, testadas e altamente reutilizáveis em diferentes partes do projeto.
+#
+# Boas práticas:
+# - Priorize funções puras (sem efeitos colaterais).
+# - Escreva testes automatizados para cada utilitário.
+# - Documente claramente a intenção e uso de cada função.
+# - Evite dependências desnecessárias.
+# - Mantenha o código simples, legível e padronizado.

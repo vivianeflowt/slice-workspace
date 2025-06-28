@@ -1,0 +1,4 @@
+# Grammar para booleano
+# Aceita apenas 'true' ou 'false'
+
+root ::= 'true' | 'false'

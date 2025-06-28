@@ -1,0 +1,8 @@
+# Conceito do provider db
+#
+# Este diretório implementa uma abstração sobre o DuckDB, inspirada no padrão do TypeORM, porém sem adotar o conceito de entidades.
+# O objetivo é fornecer uma interface simples, flexível e desacoplada para manipulação de dados, aproveitando o poder do DuckDB sem a complexidade de mapeamento objeto-relacional tradicional.
+#
+# Boas práticas:
+# - Mantenha a interface enxuta e orientada a operações diretas.
+# - Documente exemplos de uso e limitações.

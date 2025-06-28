@@ -1,24 +1,62 @@
 """
 🤖 Model Downloader - Slice/ALIVE Providers Server
-Download e gerenciamento de modelos seguindo os princípios fundamentais do ecossistema.
+Gerenciador de modelos seguindo rigorosamente os CONCEPTS.md do ecossistema.
 
-Aderência aos CONCEPTS.md:
-- 🟦 Incrementalismo: Downloads incrementais com validação contínua
-- 💻 Baixo Recurso: CPU-only, prioridade baixa, offline-first  
-- 🔌 Plug-and-Play: Auto-configuração e diretórios automáticos
-- 🎯 Responsabilidade Única: Apenas download e cache de modelos
-- ✅ Validação Forte: Verificação de arquivos sem carregamento na RAM
-- 🚀 Restauração Rápida: Downloads resumíveis e cache resiliente
-- 📖 Justificativa Real: Cada decisão técnica documentada
-- 🔧 Isolamento por Camada: Separação clara entre download, validação e uso
+📋 Aderência Total aos Conceitos Slice/ALIVE:
 
-Características técnicas:
-- Downloads sequenciais (1 modelo por vez) para evitar sobrecarga
-- Validação sem carregamento em memória (apenas verificação de arquivos)
-- Prioridade baixa de CPU e I/O para não travar o sistema
-- Cache local em /media/data para produção
-- Logs estruturados para troubleshooting
-- Aliases simples para facilitar uso
+🟦 Incrementalismo e Validação Contínua:
+- Downloads incrementais com validação a cada etapa
+- Retry com backoff exponencial em caso de falha
+- Validação completa antes de marcar como concluído
+
+💻 Baixo Recurso & Custo Mínimo:
+- CPU-only obrigatório (máximo 16GB RAM, 8 núcleos)
+- Offline-first: funciona sem internet após download inicial
+- Open source: apenas modelos HuggingFace públicos
+- Cache em /media/data (produção) conforme estratégia de armazenamento
+
+🔌 Plug-and-Play Total:
+- Auto-configuração de diretórios e ambiente
+- Zero configuração manual necessária
+- Funciona imediatamente após `task install`
+
+🎯 Responsabilidade Única:
+- APENAS download e gerenciamento de cache de modelos
+- Não carrega modelos na memória (isso é responsabilidade dos providers)
+- Separação clara entre download, validação e uso
+
+✅ Validação Forte e Padronizada:
+- Schemas tipados com dataclasses
+- Validação de arquivos sem carregamento em RAM
+- Status estruturados para troubleshooting
+
+📖 Justificativa Real para Cada Escolha:
+- HuggingFace Hub: padrão da indústria, open source, offline-capable
+- snapshot_download: download sem carregamento (evita travamentos)
+- psutil: controle de prioridade para não impactar sistema
+- Prioridade IDLE: sistema permanece responsivo durante downloads
+
+🚀 Restauração Rápida:
+- Downloads resumíveis em caso de falha
+- Cache estruturado para rebuild rápido
+- Limpeza automática de arquivos corrompidos
+
+🔧 Isolamento por Camada:
+- Gerenciamento de recursos separado da lógica de download
+- Validação isolada da lógica de cache
+- Logging estruturado para troubleshooting eficiente
+
+📦 Estratégia de Armazenamento Slice:
+- Cache principal em /media/data (produção)
+- Fallback para ~/.cache/slice_models (desenvolvimento)
+- Nunca usar disco root para dados permanentes
+
+Características Técnicas:
+- Modelos organizados por FUNÇÃO (embed, classify, instruct) não por nome
+- Aliases simples e semânticos (embed-small, classifier-sentiment)
+- Downloads sequenciais para evitar sobrecarga
+- Validação sem carregamento em memória
+- Logs estruturados para automação e troubleshooting
 """
 
 import asyncio
@@ -36,14 +74,14 @@ import torch
 from huggingface_hub import snapshot_download
 from transformers import AutoConfig
 
-# 🟦 Incrementalismo: Configuração incremental do ambiente
-# CPU-only obrigatório (Baixo Recurso & Custo Mínimo)
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
-os.environ["MKL_NUM_THREADS"] = "1"
-os.environ["OPENBLAS_NUM_THREADS"] = "1"
-os.environ["OMP_NUM_THREADS"] = "1"
+# 🟦 Incrementalismo: Configuração incremental seguindo Baixo Recurso & Custo Mínimo
+# Hardware de referência: 16GB RAM, 8 núcleos CPU, CPU-only obrigatório
+os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Força CPU-only
+os.environ["MKL_NUM_THREADS"] = "1"      # Limita threads matemáticas
+os.environ["OPENBLAS_NUM_THREADS"] = "1" # Limita threads BLAS
+os.environ["OMP_NUM_THREADS"] = "1"      # Limita threads OpenMP
 
-# 📋 Logging estruturado para troubleshooting (Isolamento por Camada)
+# 📋 Logging estruturado para Isolamento por Camada e troubleshooting
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -110,143 +148,175 @@ class DownloadResult:
     error: Optional[str] = None
 
 
-class ModelAliasRegistry:
-    """Manages model aliases following OpenAI naming patterns."""
-
+class ModelRegistry:
+    """
+    Registry de modelos seguindo princípios Slice/ALIVE.
+    
+    Aderência aos conceitos:
+    - Responsabilidade Única: Apenas gerenciamento de aliases e catálogo
+    - Baixo Recurso: Catálogo minimalista focado em modelos pequenos
+    - Justificativa Real: Cada modelo escolhido por mérito técnico documentado
+    - Offline-First: Todos os modelos funcionam sem dependências externas
+    """
+    
     def __init__(self):
         self._aliases: Dict[str, str] = {}
         self._models: Dict[str, ModelSpec] = {}
-        self._setup_default_models()
-
-    def _setup_default_models(self):
-        """Initialize default model catalog with OpenAI-like naming."""
-        default_models = [
+        self._setup_slice_models()
+    
+    def _setup_slice_models(self):
+        """
+        Catálogo oficial de modelos Slice/ALIVE.
+        
+        Critérios de seleção (Justificativa Real):
+        - Tamanho ≤ 500MB (Baixo Recurso)
+        - Funciona offline após download
+        - Open source (Custo Mínimo)
+        - Validado em hardware de referência (16GB RAM, CPU-only)
+        """
+        models = [
             ModelSpec(
-                id="embedding-ada-002",
-                name="Text Embedding Ada 002",
-                model_type=ModelType.TEXT_EMBEDDING,
+                id="embedding-small",
+                name="Embedding Compacto",
+                model_type=ModelType.EMBEDDING,
                 huggingface_id="sentence-transformers/all-MiniLM-L6-v2",
-                description="High-performance text embedding model",
+                description="Embedding de texto otimizado para CPU (23M parâmetros)",
                 context_length=512,
                 parameters="23M",
-                aliases=["text-embedding-ada-002", "ada-002"]
+                aliases=["embed-small", "mini-lm"]
             ),
             ModelSpec(
-                id="embedding-large",
-                name="Text Embedding Large",
-                model_type=ModelType.TEXT_EMBEDDING,
-                huggingface_id="sentence-transformers/all-mpnet-base-v2",
-                description="Large text embedding model for high accuracy",
+                id="embedding-medium", 
+                name="Embedding Balanceado",
+                model_type=ModelType.EMBEDDING,
+                huggingface_id="sentence-transformers/all-mpnet-base-v2", 
+                description="Embedding de alta qualidade para CPU (109M parâmetros)",
                 context_length=514,
                 parameters="109M",
-                aliases=["text-embedding-large", "mpnet-base"]
+                aliases=["embed-medium", "mpnet"]
             ),
             ModelSpec(
-                id="gpt-3.5-turbo-instruct",
-                name="GPT-3.5 Turbo Instruct",
+                id="classifier-sentiment",
+                name="Classificador de Sentimento",
+                model_type=ModelType.CLASSIFICATION,
+                huggingface_id="cardiffnlp/twitter-roberta-base-sentiment-latest",
+                description="Análise de sentimento em texto (125M parâmetros)",
+                context_length=512, 
+                parameters="125M",
+                aliases=["sentiment", "roberta-sentiment"]
+            ),
+            ModelSpec(
+                id="instruct-small",
+                name="Modelo Instrucional Compacto",
                 model_type=ModelType.INSTRUCT,
                 huggingface_id="microsoft/DialoGPT-medium",
-                description="Instruction-following conversational model",
-                context_length=4096,
-                parameters="345M",
-                aliases=["gpt-3.5-instruct", "turbo-instruct"]
-            ),
-            ModelSpec(
-                id="text-classifier-roberta",
-                name="RoBERTa Text Classifier",
-                model_type=ModelType.TEXT_CLASSIFICATION,
-                huggingface_id="cardiffnlp/twitter-roberta-base-sentiment-latest",
-                description="Sentiment analysis and text classification",
-                context_length=512,
-                parameters="125M",
-                aliases=["classifier-roberta", "sentiment-roberta"]
+                description="Modelo conversacional para instruções (345M parâmetros)",
+                context_length=1024,  # Reduzido para CPU
+                parameters="345M", 
+                aliases=["instruct", "dialog-gpt"]
             )
         ]
-
-        for model in default_models:
+        
+        for model in models:
             self.register_model(model)
-
+    
     def register_model(self, model: ModelSpec) -> None:
-        """Register a model and its aliases."""
+        """Registra modelo e aliases (Validação Forte)."""
         self._models[model.id] = model
-
-        # Register all aliases
+        
+        # Registra todos os aliases
         for alias in model.aliases:
             self._aliases[alias] = model.id
-
-        # Also register the main ID as an alias to itself
+            
+        # ID principal também é um alias válido
         self._aliases[model.id] = model.id
-
+        
+        logger.debug(f"📋 Modelo registrado: {model.id} com {len(model.aliases)} aliases")
+    
     def resolve_alias(self, model_id: str) -> Optional[str]:
-        """Resolve a model alias to its canonical ID."""
+        """Resolve alias para ID canônico."""
         return self._aliases.get(model_id)
-
+    
     def get_model(self, model_id: str) -> Optional[ModelSpec]:
-        """Get model specification by ID or alias."""
+        """Obtém especificação do modelo por ID ou alias."""
         canonical_id = self.resolve_alias(model_id)
         if canonical_id:
             return self._models.get(canonical_id)
         return None
-
+    
     def list_models(self) -> List[ModelSpec]:
-        """List all registered models."""
+        """Lista todos os modelos registrados."""
         return list(self._models.values())
-
+    
     def list_aliases(self) -> Dict[str, str]:
-        """List all aliases and their resolved IDs."""
+        """Lista aliases e seus IDs resolvidos."""
         return self._aliases.copy()
 
 
 class ResourceManager:
-    """Manages system resources during downloads."""
-
+    """
+    Gerenciador de recursos seguindo princípios Slice/ALIVE.
+    
+    Aderência aos conceitos:
+    - Baixo Recurso: Limitação de threads e configuração CPU-only
+    - Incrementalismo: Configurações aplicadas incrementalmente
+    - Isolamento por Camada: Configurações de sistema separadas da lógica
+    """
+    
     @staticmethod
-    def configure_low_resource_mode() -> None:
-        """Configure system for low-resource operation."""
+    def configure_slice_environment() -> None:
+        """Configuração de ambiente para operação de baixo recurso."""
         try:
-            # Limit PyTorch to single thread
+            # 🟦 Incrementalismo: Configurações aplicadas passo a passo
+            
+            # Limita PyTorch a single-thread (Baixo Recurso)
             torch.set_num_threads(1)
             torch.set_num_interop_threads(1)
-
-            # Set CPU-only mode (updated for PyTorch 2.1+)
+            
+            # CPU-only obrigatório (atualizado para PyTorch 2.1+)
             try:
                 torch.set_default_dtype(torch.float32)
                 torch.set_default_device('cpu')
             except AttributeError:
-                # Fallback for older PyTorch versions
+                # Fallback para versões antigas do PyTorch
                 torch.set_default_tensor_type("torch.FloatTensor")
-
-            # Configure HuggingFace Hub settings
-            os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = "600"
-            os.environ["HF_HUB_OFFLINE"] = "0"
-
-            logger.info("✅ Low-resource mode configured")
-
+            
+            # Configurações HuggingFace para ambiente restrito
+            os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = "600"  # Timeout maior para conexões lentas
+            os.environ["HF_HUB_OFFLINE"] = "0"  # Força modo online (mas cache local)
+            
+            logger.info("✅ Ambiente Slice configurado (baixo recurso)")
+            
         except Exception as e:
-            logger.warning(f"⚠️ Failed to configure low-resource mode: {e}")
-
+            logger.warning(f"⚠️ Falha na configuração de ambiente: {e}")
+    
     @staticmethod
-    def set_process_priority() -> None:
-        """Set low process priority to prevent system freezing."""
+    def set_low_priority() -> None:
+        """
+        Define prioridade baixa para não travar o sistema.
+        
+        Princípio: Baixo Recurso & Custo Mínimo
+        O download nunca deve impactar a usabilidade do sistema.
+        """
         try:
             process = psutil.Process(os.getpid())
-
+            
             if os.name == 'nt':  # Windows
                 process.nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
-            else:  # Linux/macOS
-                process.nice(19)  # Lowest priority
-
-                # Try to set I/O priority if available
+            else:  # Linux/macOS  
+                process.nice(19)  # Prioridade mais baixa
+                
+                # Tenta definir prioridade de I/O se disponível
                 try:
                     process.ionice(psutil.IOPRIO_CLASS_IDLE)
-                    logger.info("✅ I/O priority set to IDLE")
+                    logger.info("✅ Prioridade de I/O definida como IDLE")
                 except (AttributeError, OSError):
-                    logger.debug("I/O priority control not available")
-
-            logger.info("✅ Process priority set to low")
-
+                    logger.debug("Controle de prioridade I/O indisponível")
+            
+            logger.info("✅ Prioridade do processo definida como baixa")
+            
         except Exception as e:
-            logger.warning(f"⚠️ Failed to set process priority: {e}")
+            logger.warning(f"⚠️ Falha ao definir prioridade: {e}")
 
 
 class ModelValidator:

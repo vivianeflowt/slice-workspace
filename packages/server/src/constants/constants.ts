@@ -6,7 +6,7 @@ dotenv.config();
 
 // Server
 export const DEFAULT_SERVER_PORT = 4000;
-export const GLOBAL_API_PREFIX = '/api';
+export const GLOBAL_API_PREFIX = '/v1';
 export const DEFAULT_CONNECTION_TIMEOUT = 60000 * 10; // 10 minutos
 export const MAX_REQUEST_SIZE = 1000 * 1024 * 1024; // 1GB
 export const DUCKDB_DATA_PATH = path.join(__dirname, '../data');
@@ -26,9 +26,6 @@ export const OLLAMA_BASE_URL = 'http://localhost:11434';
 
 // localcloud
 // export const OLLAMA_BASE_URL = 'http://192.168.100.10:11434';
-
-
-
 
 export const SPEECH_API_BASE_URL =
   process.env.SPEECH_API_BASE_URL || 'http://localhost:11480/speech';

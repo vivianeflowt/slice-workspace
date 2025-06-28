@@ -9,13 +9,18 @@ Arquivo de constantes do projeto Command-R (Slice/ALIVE).
 import os
 
 # Server configuration
-SERVER_PORT = 8000  # Porta padrão para desenvolvimento web, ajuste se necessário
+SERVER_PORT = 11543  # Porta alta para evitar conflitos e seguir padrão enterprise Slice/ALIVE
 SERVER_HOST = "0.0.0.0"
 SERVER_NAME = "slice-command-server"
 API_VERSION = "v1"
 
 # Model configuration (CPU-optimized for Command-R)
-MODEL_NAME = "command-r"
+MODEL_VARIANTS = [
+    "command-r-small",   # Modelo leve, rápido, baixo consumo
+    "command-r-medium",  # Equilíbrio entre performance e qualidade
+    "command-r-large"    # Respostas mais elaboradas, maior contexto
+]
+MODEL_NAME = "command-r-small"  # Default
 MODEL_VERSION = "latest"
 MAX_TOKENS_DEFAULT = 4096
 TEMPERATURE_DEFAULT = 0.7

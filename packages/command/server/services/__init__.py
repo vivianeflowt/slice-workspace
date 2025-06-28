@@ -7,6 +7,7 @@ from typing import List, Dict, Any, Optional, AsyncGenerator
 from ..models import ChatMessage, ChatCompletionRequest, ChatCompletionResponse
 from ..constants import (
     MODEL_NAME,
+    MODEL_VARIANTS,
     MAX_TOKENS_DEFAULT,
     TEMPERATURE_DEFAULT,
     TORCH_DEVICE,
@@ -23,6 +24,7 @@ class CommandRService:
         self.model_name = MODEL_NAME
         self.is_loaded = False
         self._model = None
+        self.loaded_variant = MODEL_NAME
 
         # Forçar uso de CPU apenas
         if FORCE_CPU_ONLY:
@@ -33,9 +35,16 @@ class CommandRService:
         import torch
         torch.set_num_threads(TORCH_THREADS)
 
-    async def load_model(self) -> bool:
-        """Carrega o modelo Command-R otimizado para CPU."""
+    async def load_model(self, variant: str = None) -> bool:
+        """Carrega o modelo Command-R otimizado para CPU, variante selecionada."""
         try:
+            if variant is not None:
+                if variant not in MODEL_VARIANTS:
+                    raise ValueError(f"Modelo '{variant}' não suportado. Use um dos: {MODEL_VARIANTS}")
+                self.loaded_variant = variant
+            else:
+                self.loaded_variant = MODEL_NAME
+
             # Garantir que torch está usando CPU
             import torch
             if torch.cuda.is_available() and FORCE_CPU_ONLY:
@@ -49,7 +58,7 @@ class CommandRService:
             #     low_cpu_mem_usage=True
             # )
 
-            print(f"Modelo Command-R carregado em CPU com {TORCH_THREADS} threads")
+            print(f"Modelo {self.loaded_variant} carregado em CPU com {TORCH_THREADS} threads")
             self.is_loaded = True
             return True
         except Exception as e:
@@ -64,7 +73,8 @@ class CommandRService:
         """Gera uma resposta de chat usando Command-R (CPU-optimized)."""
         if not self.is_loaded:
             raise RuntimeError("Modelo Command-R não está carregado")
-
+        # Selecionar variante do modelo
+        model_variant = request.model if request.model in MODEL_VARIANTS else self.loaded_variant
         # Preparar mensagens para o modelo
         formatted_messages = self._format_messages(request.messages)
 
@@ -83,7 +93,7 @@ class CommandRService:
         return ChatCompletionResponse(
             id=response_id,
             created=timestamp,
-            model=self.model_name,
+            model=model_variant,
             choices=[{
                 "index": 0,
                 "message": {

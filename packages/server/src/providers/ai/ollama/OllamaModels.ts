@@ -51,10 +51,10 @@ export const OLLAMA_MODELS = [
   // === Modelos Experimentais / Avançados ===
   'mixtral:8x22b', // Mixtral 8x22B — robusto, ótimo para raciocínio, instrução e sumarização
   'dbrx:132b', // Databricks DBRX 132B — só para hardware de ponta, pesquisa avançada
-  'command-r7b:7b', // Command-R 7B — modelo leve, tarefas de comando, bom para hardware limitado
-  'command-r:35b', // Command-R 35B — bom para tarefas de comando, raciocínio
-  'command-r-plus:104b', // Command-R Plus 104B — importante para tasks avançadas, automação
-  'command-a:111b', // Command-A 111B — modelo avançado, tarefas complexas, automação
+//   'command-r7b:7b', // Command-R 7B — modelo leve, tarefas de comando, bom para hardware limitado
+//   'command-r:35b', // Command-R 35B — bom para tarefas de comando, raciocínio
+//   'command-r-plus:104b', // Command-R Plus 104B — importante para tasks avançadas, automação
+//   'command-a:111b', // Command-A 111B — modelo avançado, tarefas complexas, automação
   'deepseek-llm:7b', // DeepSeek LLM 7B — modelo geral, sumarização, tasks amplas
   'qwen2.5-coder:7b', // Qwen2.5 Coder 7B — modelo de código, instrução, tasks técnicas
   'llama3.1:8b', // Llama 3.1 8B — variante, tasks gerais,

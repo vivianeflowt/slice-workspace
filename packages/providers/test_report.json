@@ -1,0 +1,12 @@
+{
+  "total_tests": 0,
+  "passed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "errors": [],
+  "performance": {
+    "import_time": 5.0067901611328125e-06
+  },
+  "coverage": {},
+  "total_time": 8.567470073699951
+}

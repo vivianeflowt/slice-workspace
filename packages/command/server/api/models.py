@@ -3,7 +3,7 @@
 import time
 from fastapi import APIRouter
 from ..models import ModelsResponse, ModelInfo
-from ..constants import MODEL_NAME
+from ..constants import MODEL_NAME, MODEL_VARIANTS
 
 models_router = APIRouter()
 
@@ -13,10 +13,9 @@ async def list_models():
     """Lista os modelos disponíveis."""
     models = [
         ModelInfo(
-            id=MODEL_NAME,
+            id=variant,
             created=int(time.time()),
             owned_by="slice"
-        )
+        ) for variant in MODEL_VARIANTS
     ]
-
     return ModelsResponse(data=models)

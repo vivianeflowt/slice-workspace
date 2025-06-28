@@ -2,14 +2,14 @@
 
 from .huggingface import (
     HuggingFaceEmbeddingProvider,
+    clear_provider_cache,
     create_embedding_provider,
     get_cached_provider,
-    clear_provider_cache,
 )
 
 __all__ = [
     "HuggingFaceEmbeddingProvider",
     "create_embedding_provider",
-    "get_cached_provider", 
+    "get_cached_provider",
     "clear_provider_cache",
 ]

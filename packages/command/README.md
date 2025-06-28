@@ -109,6 +109,30 @@ GET /v1/models
 GET /health
 ```
 
+## 📑 Parâmetros dos Endpoints
+
+### /v1/chat/completions e /v1/completions
+
+| Parâmetro     | Tipo                | Obrigatório | Descrição                                                                                 | Exemplo                         |
+|---------------|---------------------|-------------|-------------------------------------------------------------------------------------------|---------------------------------|
+| model         | string              | Sim         | Nome do modelo a ser usado (ex: command-r-small, command-r-medium, command-r-large)        | "command-r-small"              |
+| messages      | array de objetos    | Sim (chat)  | Lista de mensagens (role: system/user/assistant, content: texto, name: opcional)           | [{"role": "user", "content": "Oi"}] |
+| prompt        | string/array        | Sim (text)  | Prompt para completar (apenas em /completions)                                             | "Explique o conceito de IA"     |
+| max_tokens    | int                 | Não         | Máximo de tokens a gerar                                                                  | 100                             |
+| temperature   | float (0.0–2.0)     | Não         | Aleatoriedade da resposta                                                                 | 0.7                             |
+| top_p         | float (0.0–1.0)     | Não         | Amostragem nucleus/top-p                                                                 | 1.0                             |
+| stream        | bool                | Não         | Se deve usar streaming (resposta em tempo real)                                           | false                           |
+| stop          | string/array        | Não         | Sequências de parada para interromper a geração                                            | "\n" ou ["\n", "Fim"]            |
+
+### /v1/embeddings
+
+| Parâmetro     | Tipo                | Obrigatório | Descrição                                                                                 | Exemplo                         |
+|---------------|---------------------|-------------|-------------------------------------------------------------------------------------------|---------------------------------|
+| input         | string/array        | Sim         | Texto(s) para gerar embedding                                                             | "Texto para embed"              |
+| model         | string              | Sim         | Nome do modelo a ser usado                                                                | "command-r-small"              |
+
+> Consulte os exemplos de request acima para ver como montar cada payload.
+
 ## ⚙️ Configuração
 
 Todas as configurações estão centralizadas em `server/constants.py`:
@@ -234,3 +258,24 @@ Seguimos o padrão Slice/ALIVE para commits:
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [PDM Documentation](https://pdm.fming.dev/)
 - [Task Documentation](https://taskfile.dev/)
+
+## 🧠 Modelos Disponíveis
+
+Todos os modelos são otimizados para CPU e seguem a convenção de nomes baseada no tamanho:
+
+- `"command-r-small"`   — Modelo leve, ideal para respostas rápidas e baixo consumo de memória.
+- `"command-r-medium"`  — Equilíbrio entre performance e qualidade.
+- `"command-r-large"`   — Mais capacidade, respostas mais elaboradas e maior contexto.
+
+> **Nota:** Consulte o endpoint `/v1/models` para ver quais variantes estão carregadas no momento.
+
+### Exemplo de uso:
+```json
+{
+  "model": "command-r-small",
+  "messages": [
+    {"role": "user", "content": "Olá, tudo bem?"}
+  ],
+  "max_tokens": 100
+}
+```

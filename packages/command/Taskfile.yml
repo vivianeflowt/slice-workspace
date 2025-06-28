@@ -19,13 +19,13 @@ tasks:
   dev:
     desc: "Iniciar servidor em modo desenvolvimento"
     cmds:
-      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 5143 --reload
+      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 11543 --reload
     silent: false
 
   start:
     desc: "Iniciar servidor em modo produção"
     cmds:
-      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 5143
+      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 11543
     silent: false
 
   test:

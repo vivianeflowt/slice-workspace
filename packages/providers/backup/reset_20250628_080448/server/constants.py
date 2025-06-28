@@ -7,7 +7,7 @@ Arquivo de constantes do projeto Providers (Slice/ALIVE).
 """
 
 import os
-from typing import Any, Dict, List
+from typing import Dict, List, Any
 
 # =============================================================================
 # CONFIGURAÇÕES DO SERVIDOR
@@ -67,7 +67,6 @@ CACHE_TTL_SECONDS = 3600
 
 # CPU optimization settings
 TORCH_DEVICE = "cpu"
-DEVICE = TORCH_DEVICE  # Compatibilidade retroativa para scripts/testes legados
 TORCH_THREADS = 8  # Optimize for CPU cores
 USE_GPU = False
 FORCE_CPU_ONLY = True
@@ -182,6 +181,3 @@ MOCK_EMBEDDING_RESPONSE: Dict[str, Any] = {
 # VALIDATION: Este arquivo contém APENAS constantes
 # Funções helper devem estar em server/utils/ conforme CONCEPTS.md
 # =============================================================================
-
-# Modelos padrão para compatibilidade retroativa
-MODELS = DEFAULT_MODELS  # Compatibilidade para scripts/health check legados

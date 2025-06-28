@@ -182,6 +182,3 @@ MOCK_EMBEDDING_RESPONSE: Dict[str, Any] = {
 # VALIDATION: Este arquivo contém APENAS constantes
 # Funções helper devem estar em server/utils/ conforme CONCEPTS.md
 # =============================================================================
-
-# Modelos padrão para compatibilidade retroativa
-MODELS = DEFAULT_MODELS  # Compatibilidade para scripts/health check legados

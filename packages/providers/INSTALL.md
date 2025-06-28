@@ -239,7 +239,7 @@ export MKL_NUM_THREADS=$CPU_THREADS
 # Pré-carregar todos os modelos na inicialização
 # (reduz latência da primeira requisição)
 curl http://localhost:5115/api/v1/classify/info
-curl http://localhost:5115/api/v1/embed/info  
+curl http://localhost:5115/api/v1/embed/info
 curl http://localhost:5115/api/v1/pos-tag/info
 ```
 

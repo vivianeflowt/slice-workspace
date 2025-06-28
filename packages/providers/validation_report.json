@@ -1,0 +1,41 @@
+{
+  "structure": {
+    "passed": true,
+    "details": [
+      "Todos os arquivos presentes",
+      "Nenhum anti-padr\u00e3o detectado"
+    ]
+  },
+  "dependencies": {
+    "passed": false,
+    "details": []
+  },
+  "code_quality": {
+    "passed": false,
+    "details": [
+      "Black formatting: ",
+      "isort imports: "
+    ]
+  },
+  "tests": {
+    "passed": false,
+    "details": [
+      "\u001b[1m\u001b[96m\n\ud83e\uddea SLICE/ALIVE PROVIDERS - SUITE DE TESTES ENTERPRISE\n============================================================\nValida\u00e7\u00e3o Forte | Incrementalismo | Qualidade Garantida\n=\u001b[0m\n\n\u001b[94m\u2139\ufe0f  [07:57:50] \ud83d\udd0d Verificando ambiente de teste...\u001b[0m\n\u001b[92m\u2705 [07:57:51] Pytest encontrado: pytest 8.3.5\u001b[0m\n\u001b[92m\u2705 [07:57:51] Ambiente de teste verificado \u2713\u001b[0m\n\u001b[94m\u2139\ufe0f  [07:57:51] \ud83c\udfd7\ufe0f  Executando testes de estrutura...\u001b[0m\n\u001b[92m\u2705 [07:57:51] Estrutura do projeto validada \u2713\u001b[0m\n\u001b[94m\u2139\ufe0f  [07:57:51] \ud83d\udce6 Testando imports...\u001b[0m\n\u001b[92m\u2705 [07:57:51]   \u2713 server.constants\u001b[0m\n\u001b[92m\u2705 [07:57:51]   \u2713 server.models\u001b[0m\n\u001b[91m\u274c [07:57:53]   \u274c server.providers.classify: cannot import name 'DEVICE' from 'server.constants' (/home/vivi/Documentos/@slice/slice-workspace/packages/providers/server/constants.py)\u001b[0m\n\n\u001b[1m\u001b[96m\ud83d\udcca RELAT\u00d3RIO DE TESTES\u001b[0m\n\u001b[94mTempo total: 2.94s\u001b[0m\n\u001b[94mRelat\u00f3rio salvo em: /home/vivi/Documentos/@slice/slice-workspace/packages/providers/test_report.json\u001b[0m\n\u001b[92m\u001b[1m\ud83c\udf89 TODOS OS TESTES PASSARAM!\u001b[0m\n",
+      ""
+    ]
+  },
+  "integration": {
+    "passed": true,
+    "details": [
+      "Servidor inicia sem erros"
+    ]
+  },
+  "performance": {
+    "passed": false,
+    "details": []
+  },
+  "overall": {
+    "passed": false,
+    "score": 0.3333333333333333
+  }
+}

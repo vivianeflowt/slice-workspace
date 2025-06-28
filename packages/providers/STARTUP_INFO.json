@@ -1,0 +1,20 @@
+{
+  "server": {
+    "url": "http://0.0.0.0:11544",
+    "health": "http://0.0.0.0:11544/health",
+    "docs": "http://0.0.0.0:11544/docs"
+  },
+  "commands": {
+    "dev": "task dev",
+    "start": "task start",
+    "test": "task test",
+    "health": "task health",
+    "models": "task models"
+  },
+  "next_steps": [
+    "1. Execute 'task dev' para iniciar em modo desenvolvimento",
+    "2. Acesse http://localhost:5115/docs para ver a documenta\u00e7\u00e3o da API",
+    "3. Execute 'task test' para rodar os testes",
+    "4. Execute 'task health' para verificar status do servidor"
+  ]
+}

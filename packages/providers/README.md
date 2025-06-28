@@ -1,52 +1,59 @@
-# 🤖 Slice Providers - HuggingFace NLP Server
+# 🏭 Slice/ALIVE Providers Server
 
-> Servidor de Providers HuggingFace para o ecossistema **Slice/ALIVE**. Fornece modelos de NLP em português via API REST, rodando 100% em CPU para máxima compatibilidade.
+> **Enterprise HuggingFace Providers Server (CPU-only) para o ecossistema Slice/ALIVE**
+> Seguindo rigorosamente os princípios definidos em [CONCEPTS.md](docs/CONCEPTS.md)
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
 [![CPU Only](https://img.shields.io/badge/CPU-Only-orange.svg)](https://pytorch.org/)
-[![Portuguese NLP](https://img.shields.io/badge/NLP-Português-yellow.svg)](https://huggingface.co/)
+[![Enterprise](https://img.shields.io/badge/Enterprise-Ready-success.svg)](/)
+[![CONCEPTS](https://img.shields.io/badge/CONCEPTS-Compliant-blue.svg)](docs/CONCEPTS.md)
 
-## 🎯 Funcionalidades
+## 🎯 Arquitetura por Função (não por modelo)
 
-- **🎯 Classificação de texto** - Análise de sentimento, categorização, zero-shot classification
-- **🧠 Geração de embeddings** - Representações semânticas para busca e similaridade  
-- **📝 POS tagging** - Análise morfossintática e estrutural de texto
-- **🔌 API REST** - Endpoints compatíveis com padrão OpenAI
-- **💻 CPU-only** - Funciona em qualquer máquina, sem dependência de GPU
-- **🇧🇷 Foco em português** - Modelos otimizados para linguagem brasileira
+- **🎯 Classificação** (`/classify`) - Análise de sentimento, categorização
+- **🧠 Embeddings** (`/embed`) - Representações vetoriais para similaridade
+- **📝 POS Tagging** (`/pos_tag`) - Análise morfossintática
+- **🔌 API Enterprise** - Validação JSON Schema, health checks, monitoramento
+- **💻 CPU-only** - Baixo recurso, offline-first, open source
+- **� Plug-and-Play** - `task install` e pronto para uso
 
-## 🚀 Quick Start
-
-### 1. Instalação
+## 🚀 Plug-and-Play (CLP Industrial)
 
 ```bash
-# Clone o projeto (se necessário)
+# 1. Clone e entre no diretório
+git clone <repo-url>
 cd packages/providers
 
-# Instala dependências e baixa modelos
+# 2. Instalação automática (< 5 min)
 task install
-```
 
-### 2. Executar servidor
-
-```bash
-# Modo desenvolvimento (com reload)
-task dev
-
-# Modo produção
+# 3. Servidor rodando (localhost:8000)
 task start
 ```
 
-O servidor estará disponível em `http://localhost:5115`
+**Meta:** Do clone ao servidor funcionando em menos de 5 minutos, seguindo o princípio de **Plug-and-Play Total**.
 
-### 3. Testar API
+## 📋 Taskfile Enterprise
 
-```bash
-# Classificação de texto
-curl -X POST "http://localhost:5115/api/v1/classify" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Este produto é excelente!", "language": "pt"}'
+O Taskfile controla **todo** o ciclo de vida do servidor:
+
+| Task | Descrição | Princípio CONCEPTS.md |
+|------|-----------|----------------------|
+| `task install` | Instalação plug-and-play completa | Plug-and-Play Total |
+| `task dev` | Desenvolvimento com hot reload | Incrementalismo |
+| `task start` | Produção estável | Baixo Recurso |
+| `task test` | Testes automatizados | Validação Forte |
+| `task lint` | Linting e formatação | Validação Forte |
+| `task validate` | Validação completa | Validação Antes Padronização |
+| `task health` | Health check do sistema | Isolamento por Camada |
+| `task models` | Gerenciamento de modelos | Baixo Recurso |
+| `task clean` | Limpeza de temporários | Baixo Recurso |
+| `task reset` | Restauração rápida (< 30min) | Restauração Rápida |
+| `task logs` | Visualização de logs | Isolamento por Camada |
+| `task shell` | Shell interativo | Documentação Incremental |
+| `task deps` | Análise de dependências/licenças | Curadoria de Licença |
+| `task benchmark` | Performance dos modelos | Justificativa Real |
 
 # Geração de embedding
 curl -X POST "http://localhost:5115/api/v1/embed" \
@@ -59,17 +66,27 @@ curl -X POST "http://localhost:5115/api/v1/pos-tag" \
   -d '{"text": "O gato subiu no telhado."}'
 ```
 
-## 📚 Documentação da API
+## 📚 Documentação Incremental
 
-### Endpoints Principais
+> **CONCEPTS.md**: Documentação incremental e machine-readable
 
-| Endpoint | Método | Descrição |
-|----------|--------|-----------|
-| `/api/v1/classify` | POST | Classificação de texto |
-| `/api/v1/embed` | POST | Geração de embeddings |
-| `/api/v1/pos-tag` | POST | POS tagging |
-| `/health` | GET | Status do serviço |
-| `/docs` | GET | Documentação Swagger |
+### 📖 Documentos Disponíveis
+
+| Documento | Descrição | Princípio |
+|-----------|-----------|-----------|
+| **[📋 CONCEPTS.md](docs/CONCEPTS.md)** | Princípios fundamentais do ecossistema | Base de tudo |
+| **[🔌 API.md](docs/API.md)** | Referência completa da API com exemplos | Documentação Incremental |
+| **[📜 LICENSE_AUDIT.md](docs/LICENSE_AUDIT.md)** | Curadoria de licenças das dependências | Curadoria de Licença |
+
+### 🔌 Endpoints Principais
+
+| Endpoint | Método | Descrição | Documentação |
+|----------|--------|-----------|--------------|
+| `/api/v1/classify` | POST | Classificação de texto | [Ver exemplos](docs/API.md#classificação-de-texto) |
+| `/api/v1/embed` | POST | Geração de embeddings | [Ver exemplos](docs/API.md#embeddings-de-texto) |
+| `/api/v1/pos_tag` | POST | POS tagging | [Ver exemplos](docs/API.md#pos-tagging) |
+| `/health` | GET | Status do serviço | [Ver exemplos](docs/API.md#health-check) |
+| `/docs` | GET | Documentação Swagger | Auto-gerada |
 
 ### Classificação de Texto
 
@@ -106,7 +123,7 @@ response = requests.post("http://localhost:5115/api/v1/embed/multi", json={
 })
 
 # Similaridade entre textos
-response = requests.post("http://localhost:5115/api/v1/embed/similarity", 
+response = requests.post("http://localhost:5115/api/v1/embed/similarity",
     params={
         "text1": "Gato subiu no telhado",
         "text2": "Felino escalou o teto",
@@ -125,7 +142,7 @@ response = requests.post("http://localhost:5115/api/v1/pos-tag", json={
 })
 
 # Análise estrutural
-response = requests.post("http://localhost:5115/api/v1/pos-tag/analyze", 
+response = requests.post("http://localhost:5115/api/v1/pos-tag/analyze",
     params={"text": "A empresa desenvolveu uma solução inovadora."}
 )
 ```
@@ -185,7 +202,7 @@ server/
 
 ### Classificação
 - **Padrão**: `neuralmind/bert-base-portuguese-cased`
-- **Alternativas**: 
+- **Alternativas**:
   - `rufimelo/Legal-BERTimbau-base`
   - `pierreguillou/bert-base-cased-pt-lenerbr`
 
@@ -295,7 +312,7 @@ export LOG_LEVEL=DEBUG
 # server/constants.py
 DEFAULT_MODELS = {
     "classify": "seu-modelo-de-classificacao",
-    "embed": "seu-modelo-de-embeddings", 
+    "embed": "seu-modelo-de-embeddings",
     "pos_tag": "seu-modelo-de-pos-tagging",
 }
 ```

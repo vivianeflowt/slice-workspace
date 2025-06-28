@@ -25,7 +25,7 @@ def test_cuda_environment_variables():
     # Simular inicialização do serviço
     from server.services import CommandRService
     service = CommandRService()
-    
+
     # Verificar se CUDA_VISIBLE_DEVICES foi configurado
     assert "CUDA_VISIBLE_DEVICES" in os.environ, "CUDA_VISIBLE_DEVICES deve estar definido"
     assert os.environ["CUDA_VISIBLE_DEVICES"] == "", "CUDA_VISIBLE_DEVICES deve estar vazio"
@@ -35,11 +35,11 @@ def test_torch_threads_configured():
     """Verifica se o número de threads do torch está configurado."""
     import torch
     from server.constants import TORCH_THREADS
-    
+
     # O torch pode ter sido configurado na inicialização do serviço
     from server.services import CommandRService
     service = CommandRService()
-    
+
     # Verificar se threads estão definidas
     current_threads = torch.get_num_threads()
     assert current_threads > 0, "Torch deve ter threads configuradas"
@@ -49,16 +49,16 @@ def test_no_cuda_dependencies():
     """Verifica se não há dependências CUDA desnecessárias."""
     try:
         import torch
-        
+
         # Se CUDA estiver disponível, verificar se não está sendo usado
         if torch.cuda.is_available():
             # Torch pode estar disponível mas não deve ser usado
             assert FORCE_CPU_ONLY, "Se CUDA disponível, deve usar FORCE_CPU_ONLY"
-        
+
         # Verificar se torch está configurado para CPU
         device = torch.device("cpu")
         assert device.type == "cpu", "Device padrão deve ser CPU"
-        
+
     except ImportError:
         # torch não instalado - ok para testes
         pass
@@ -67,12 +67,12 @@ def test_no_cuda_dependencies():
 def test_command_r_cpu_optimization():
     """Verifica se Command-R está otimizado para CPU."""
     from server.services import CommandRService
-    
+
     service = CommandRService()
-    
+
     # Verificar configurações específicas do Command-R
     assert service.model_name == "command-r", "Modelo deve ser command-r"
-    
+
     # Command-R deve estar configurado para CPU
     assert hasattr(service, '_model'), "Serviço deve ter atributo _model"
 
@@ -80,7 +80,7 @@ def test_command_r_cpu_optimization():
 def test_cpu_optimization_constants():
     """Verifica se as constantes de otimização CPU estão definidas."""
     from server.constants import TORCH_THREADS
-    
+
     assert isinstance(TORCH_THREADS, int), "TORCH_THREADS deve ser inteiro"
     assert TORCH_THREADS > 0, "TORCH_THREADS deve ser positivo"
     assert TORCH_THREADS <= 32, "TORCH_THREADS deve ser razoável (<=32)"
@@ -91,14 +91,14 @@ def test_memory_optimization_for_cpu():
     # Verificar se configurações de memória GPU não estão presentes
     cuda_env_vars = [
         "PYTORCH_CUDA_ALLOC_CONF",
-        "CUDA_LAUNCH_BLOCKING", 
+        "CUDA_LAUNCH_BLOCKING",
         "CUDA_CACHE_DISABLE"
     ]
-    
+
     # Não deve ter configurações específicas de GPU além da desabilitação
     from server.services import CommandRService
     service = CommandRService()
-    
+
     # PYTORCH_CUDA_ALLOC_CONF deve estar configurada para desabilitar
     if "PYTORCH_CUDA_ALLOC_CONF" in os.environ:
         assert "max_split_size_mb:0" in os.environ["PYTORCH_CUDA_ALLOC_CONF"]

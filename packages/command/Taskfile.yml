@@ -12,11 +12,8 @@ tasks:
     desc: "Baixar modelos Command-R necessários"
     cmds:
       - echo "Baixando modelos Command-R..."
-      - mkdir -p {{.MODELS_DIR}}
-      - python scripts/download_models.py || true
+      - python3 scripts/download_models.py || true
       - echo "Modelos baixados com sucesso!"
-    vars:
-      MODELS_DIR: "/media/data/models"
     silent: false
 
   dev:

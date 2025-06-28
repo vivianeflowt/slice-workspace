@@ -222,3 +222,68 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# =============================================================================
+# CONFIGURAÇÕES ESPECÍFICAS DO SLICE PROVIDERS
+# =============================================================================
+
+# HuggingFace Cache e modelos
+.cache/
+models/
+**/huggingface/
+**/.cache/huggingface/
+**/.cache/torch/
+**/.cache/transformers/
+
+# Downloads de modelos
+*.bin
+*.safetensors
+*.h5
+*.onnx
+*.pt
+*.pth
+
+# PDM específico
+.pdm.toml
+.pdm-python
+.pdm-build/
+__pypackages__/
+
+# Logs do servidor
+*.log
+logs/
+server.log
+access.log
+error.log
+
+# Cache local de providers
+/server/temp/
+/server/cache/
+local_models/
+model_cache/
+
+# Configurações locais
+.env.local
+.env.development
+.env.test
+.env.production
+local_config.py
+
+# Backup e temporários
+*.bak
+*.backup
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# IDE específico
+.vscode/settings.json
+.idea/workspace.xml
+*.swp
+*.swo
+
+# Arquivos de teste grandes
+test_models/
+test_data/
+large_test_files/

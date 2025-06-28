@@ -30,10 +30,10 @@ def test_required_subdirectories():
     """Verifica se os subdiretórios necessários existem."""
     required_dirs = [
         "server/api",
-        "server/models", 
+        "server/models",
         "server/services"
     ]
-    
+
     for directory in required_dirs:
         assert os.path.exists(directory), f"Diretório {directory} deve existir"
         assert os.path.isdir(directory), f"{directory} deve ser um diretório"

@@ -11,7 +11,7 @@ task setup
 # Iniciar em modo desenvolvimento
 task dev
 
-# Ou iniciar em modo produção  
+# Ou iniciar em modo produção
 task start
 ```
 
@@ -46,7 +46,7 @@ server/
 ├── constants.py         # Todas as constantes centralizadas
 ├── api/                 # Endpoints organizados por recurso
 │   ├── chat.py         # /v1/chat/completions
-│   ├── completions.py  # /v1/completions  
+│   ├── completions.py  # /v1/completions
 │   ├── models.py       # /v1/models
 │   └── health.py       # /health
 ├── services/           # Lógica de negócio e integração
@@ -93,7 +93,7 @@ POST /v1/chat/completions
 Content-Type: application/json
 
 {
-  "model": "command-r", 
+  "model": "command-r",
   "messages": [{"role": "user", "content": "Hello!"}],
   "stream": true
 }
@@ -118,16 +118,31 @@ Todas as configurações estão centralizadas em `server/constants.py`:
 SERVER_PORT = 5143
 SERVER_HOST = "0.0.0.0"
 
-# Model  
+# Model (CPU-optimized)
 MODEL_NAME = "command-r"
 MAX_TOKENS_DEFAULT = 4096
 TEMPERATURE_DEFAULT = 0.7
+
+# CPU optimization
+TORCH_DEVICE = "cpu"
+TORCH_THREADS = 8
+USE_GPU = False
+FORCE_CPU_ONLY = True
 
 # Paths
 MODELS_DIR = '/media/data/models'
 CACHE_DIR = "./cache"
 LOGS_DIR = "./logs"
 ```
+
+### CPU-Only Configuration
+
+O servidor está configurado para usar **apenas CPU**, seguindo o Checkpoint #019:
+
+- `FORCE_CPU_ONLY = True`: Força uso exclusivo de CPU
+- `CUDA_VISIBLE_DEVICES = ""`: Desabilita acesso à GPU
+- `TORCH_THREADS = 8`: Otimiza threads para CPU
+- `torch>=2.1.0+cpu`: Versão CPU-only do PyTorch
 
 ## 🧪 Testes
 
@@ -168,7 +183,7 @@ task setup
 ### Estrutura de Commits
 Seguimos o padrão Slice/ALIVE para commits:
 - `feat:` Nova funcionalidade
-- `fix:` Correção de bug  
+- `fix:` Correção de bug
 - `test:` Adição/modificação de testes
 - `docs:` Documentação
 - `refactor:` Refatoração sem mudança de funcionalidade
@@ -184,7 +199,7 @@ Seguimos o padrão Slice/ALIVE para commits:
 ### Checkpoints Implementados ✅
 
 1. **#001** - Estrutura de diretórios (`server/`, `tests/`)
-2. **#002** - Taskfile completo com download de modelos  
+2. **#002** - Taskfile completo com download de modelos
 3. **#003** - Organização modular (anti-pattern "pythonzeira")
 4. **#006** - PDM como gerenciador de pacotes
 5. **#008** - Porta definida em constants (não .env)

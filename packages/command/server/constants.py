@@ -6,8 +6,10 @@ Arquivo de constantes do projeto Command-R (Slice/ALIVE).
 - Siga o padrão Slice/ALIVE: clareza, versionamento e facilidade de setup.
 """
 
+import os
+
 # Server configuration
-SERVER_PORT = 5143  # Porta alta, próxima do padrão de outros serviços
+SERVER_PORT = 8000  # Porta padrão para desenvolvimento web, ajuste se necessário
 SERVER_HOST = "0.0.0.0"
 SERVER_NAME = "slice-command-server"
 API_VERSION = "v1"
@@ -35,12 +37,17 @@ REQUEST_TIMEOUT_SECONDS = 300
 MAX_CONCURRENT_REQUESTS = 100
 
 # Paths
-MODELS_DIR = '/media/data/models'
-CACHE_DIR = "./cache"
-LOGS_DIR = "./logs"
+BASE_DIR = '/media/data/llvm/command'
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
+CACHE_DIR = os.path.join(BASE_DIR, 'cache')
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
+
+# Garantir que todos os diretórios existem (plug-and-play)
+for d in [BASE_DIR, MODELS_DIR, CACHE_DIR, LOGS_DIR]:
+    os.makedirs(d, exist_ok=True)
 
 # Timeout padrão (em segundos)
-DEFAULT_TIMEOUT = 60
+DEFAULT_TIMEOUT = 120
 
 # Health check
 HEALTH_CHECK_TIMEOUT = 30
@@ -49,7 +56,21 @@ HEALTH_CHECK_TIMEOUT = 30
 OPENAI_API_BASE_PATH = "/v1"
 SUPPORTED_ENDPOINTS = [
     "/chat/completions",
-    "/completions", 
+    "/completions",
     "/embeddings",
     "/models"
 ]
+
+INTERNAL_ERROR_CODE = 500
+
+PORT_MIN = 1024
+PORT_MAX = 65535
+
+BAD_REQUEST_ERROR_CODE = 400
+SERVICE_UNAVAILABLE_ERROR_CODE = 503
+
+COMPLETION_ID_EXAMPLE = "cmpl-123"
+CREATED_TIMESTAMP_EXAMPLE = 1234567890
+PROMPT_TOKENS_EXAMPLE = 10
+COMPLETION_TOKENS_EXAMPLE = 20
+TOTAL_TOKENS_EXAMPLE = 30

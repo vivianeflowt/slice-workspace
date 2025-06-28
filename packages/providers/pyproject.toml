@@ -1,0 +1,109 @@
+[project]
+name = "slice-providers"
+version = "0.1.0"
+description = "Servidor de Providers HuggingFace para modelos NLP em português (CPU-only)"
+authors = [
+    {name = "Slice Team", email = "dev@slice.com"},
+]
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.5.0",
+    "transformers>=4.35.0",
+    "torch>=2.1.0",
+    "tokenizers>=0.15.0",
+    "numpy>=1.24.0",
+    "python-multipart>=0.0.6",
+    "httpx>=0.25.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.7.0",
+    "pydocstyle>=6.3.0",
+    # Dependências específicas para sentence-transformers
+    "sentence-transformers>=2.2.0",
+    "scikit-learn>=1.3.0",
+    "scipy>=1.11.0",
+    # Utilidades adicionais
+    "psutil>=5.9.0",  # Para informações do sistema
+    "pyyaml>=6.0",    # Para parsing do Taskfile nos testes
+    "tomli>=2.0.0; python_version < '3.11'",  # Para parsing do pyproject.toml
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pre-commit>=3.5.0",
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = false
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["server"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_redundant_casts = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["server"]
+omit = [
+    "*/tests/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false

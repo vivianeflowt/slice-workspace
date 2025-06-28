@@ -1,0 +1,15 @@
+"""Provider HuggingFace para POS tagging."""
+
+from .huggingface import (
+    HuggingFacePosTagProvider,
+    create_pos_tag_provider,
+    get_cached_provider,
+    clear_provider_cache,
+)
+
+__all__ = [
+    "HuggingFacePosTagProvider",
+    "create_pos_tag_provider",
+    "get_cached_provider",
+    "clear_provider_cache", 
+]

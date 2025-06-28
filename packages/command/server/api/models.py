@@ -18,5 +18,5 @@ async def list_models():
             owned_by="slice"
         )
     ]
-    
+
     return ModelsResponse(data=models)

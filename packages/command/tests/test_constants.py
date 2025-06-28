@@ -57,7 +57,7 @@ def test_temperature_is_valid():
 def test_directories_are_defined():
     """Verifica se os diretórios estão definidos."""
     directories = [MODELS_DIR, CACHE_DIR, LOGS_DIR]
-    
+
     for directory in directories:
         assert isinstance(directory, str), f"Diretório {directory} deve ser uma string"
         assert len(directory) > 0, f"Diretório {directory} não pode estar vazio"
@@ -71,6 +71,6 @@ def test_no_magic_numbers_in_constants():
         MAX_TOKENS_DEFAULT,
         TEMPERATURE_DEFAULT
     ]
-    
+
     for constant in numeric_constants:
         assert isinstance(constant, (int, float)), "Constante deve ser numérica"

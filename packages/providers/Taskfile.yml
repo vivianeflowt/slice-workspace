@@ -1,0 +1,92 @@
+version: '3'
+
+# 🏭 Taskfile Enterprise - Slice/ALIVE Providers Server
+# Seguindo padrão: https://github.com/slice/ecosystem/docs/TASK_FILES.md
+# 
+# Princípios:
+# - Plug-and-Play Total: task install deve deixar tudo funcionando
+# - Scripts organizados em /scripts (nunca comandos diretos aqui)
+# - Validação Forte em cada etapa
+# - Restauração Rápida do ecossistema
+# - Incrementalismo: cada task valida antes de prosseguir
+
+tasks:
+  install:
+    desc: "🚀 Instalação completa plug-and-play (CLP industrial)"
+    cmds:
+      - python scripts/install.py
+
+  dev:
+    desc: "🔧 Modo desenvolvimento com reload automático"
+    cmds:
+      - python scripts/dev.py
+
+  start:
+    desc: "▶️  Produção (servidor estável)"
+    cmds:
+      - python scripts/start.py
+
+  test:
+    desc: "✅ Executa todos os testes automatizados"
+    cmds:
+      - python scripts/test.py
+
+  test-unit:
+    desc: "🧪 Apenas testes unitários"
+    cmds:
+      - python scripts/test.py --unit
+
+  test-integration:
+    desc: "🔗 Apenas testes de integração"
+    cmds:
+      - python scripts/test.py --integration
+
+  lint:
+    desc: "🎨 Linting e formatação (black, isort, flake8, mypy)"
+    cmds:
+      - python scripts/lint.py
+
+  validate:
+    desc: "🔍 Validação completa (lint + test + health)"
+    cmds:
+      - python scripts/validate.py
+
+  health:
+    desc: "❤️  Health check do servidor"
+    cmds:
+      - python scripts/health.py
+
+  models:
+    desc: "📦 Gerenciamento de modelos HuggingFace"
+    cmds:
+      - python scripts/models.py {{.CLI_ARGS}}
+
+  clean:
+    desc: "🧹 Limpeza de arquivos temporários"
+    cmds:
+      - python scripts/clean.py
+
+  reset:
+    desc: "🔄 Restauração rápida do ambiente (< 30min)"
+    cmds:
+      - python scripts/reset.py
+
+  logs:
+    desc: "📋 Visualizar logs do servidor"
+    cmds:
+      - python scripts/logs.py
+
+  shell:
+    desc: "🐚 Shell interativo com ambiente carregado"
+    cmds:
+      - python scripts/shell.py
+
+  deps:
+    desc: "📊 Análise de dependências e licenças"
+    cmds:
+      - python scripts/deps.py
+
+  benchmark:
+    desc: "⚡ Benchmark de performance dos modelos"
+    cmds:
+      - python scripts/benchmark.py

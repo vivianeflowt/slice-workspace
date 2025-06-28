@@ -35,6 +35,8 @@ DEFAULT_MODELS: Dict[str, str] = {
     "classify": "neuralmind/bert-base-portuguese-cased",
     "embed": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
     "pos_tag": "pierreguillou/bert-base-cased-pt-lenerbr",
+    "deepseek-r1-qwen-7b": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",  # LLM distilado para reasoning
+    "am-thinking-v1": "a-m-team/AM-Thinking-v1",  # LLM 32B reasoning
 }
 
 # Modelos alternativos disponíveis

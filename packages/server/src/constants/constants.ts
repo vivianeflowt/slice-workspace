@@ -23,6 +23,7 @@ export const DEFAULT_MODEL_MAX_TOKENS = 100000;
 
 // workstation
 export const OLLAMA_BASE_URL = 'http://localhost:11434';
+export const CUSTOM_LLBM_SERVER_BASE_URL = 'http://localhost:11544';
 
 // localcloud
 // export const OLLAMA_BASE_URL = 'http://192.168.100.10:11434';

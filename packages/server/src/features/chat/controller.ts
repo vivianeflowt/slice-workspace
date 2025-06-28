@@ -4,6 +4,7 @@ import { OpenaiProvider } from '../../providers/ai/openai/OpenAIProvider';
 import { DeepseekProvider } from '../../providers/ai/deepseek/DeepSeekProvider';
 import { OllamaProvider } from '../../providers/ai/ollama/OllamaProvider';
 import { PerplexityProvider } from '../../providers/ai/perplexity/PerplexityProvider';
+import { CustomProvider } from '../../providers/ai/custom/CustomProvider';
 import { AvailableModels, ModelInfo, normalizeModelKey } from '../../lib/models/AvailableModels';
 import axios from 'axios';
 import {
@@ -15,7 +16,7 @@ import logger from '../../lib/logger/logger';
 import crypto from 'crypto';
 import NodeCache from 'node-cache';
 
-type ProviderName = 'openai' | 'deepseek' | 'ollama' | 'perplexity';
+type ProviderName = 'openai' | 'deepseek' | 'ollama' | 'perplexity' | 'custom';
 
 // ProviderName tipado para garantir consistência
 const providerClassMap: Record<ProviderName, any> = {
@@ -23,6 +24,7 @@ const providerClassMap: Record<ProviderName, any> = {
   deepseek: DeepseekProvider,
   ollama: OllamaProvider,
   perplexity: PerplexityProvider,
+  custom: CustomProvider,
 };
 
 // Resolve provider e model usando AvailableModels

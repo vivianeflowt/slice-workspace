@@ -191,3 +191,115 @@ flowchart TD
 ---
 
 > Este documento é vivo e deve ser expandido conforme novas descobertas, experimentos e integrações forem realizadas.
+
+https://github.com/agno-agi/agno/tree/main
+
+
+# 🧱 Mapeamento Estrutural: Framework Agno + Camadas de Agentes
+
+Este documento explica como o código-fonte do framework **Agno** (open source, Python)** é organizado em camadas lógicas que espelham o fluxo de um agente orquestrador tipo Copilot. Isso ajuda você a migrar ou replicar em TypeScript/ModelFusion.
+
+> Baseline: **Agno é um framework completo**, agnóstico a modelos, com suporte a ferramentas, memória, reasoning e execução incremental :contentReference[oaicite:1]{index=1}.
+
+---
+
+## 🧭 Etapas Orquestração & Mapeamento de Pastas
+
+### 1. Parser / Interpreter → `agent/`
+- Interpreta input, sistema de prompts e comandos do usuário.
+- Em Agno: classe `Agent` inicializa modelo, ferramentas e instruções :contentReference[oaicite:2]{index=2}.
+
+### 2. Planner → `tools/reasoning/`, `planner.py` (se existir)
+- Responsável por decompor prompt em subtarefas, definir dependências.
+- Em Agno: uso de Toolkit de Reasoning ou custom tools adicionadas no instanciamento do agente :contentReference[oaicite:3]{index=3}.
+
+### 3. Executor → `tools/`, serviços (`services/`)
+- Executa ferramentas (tool-use), chama modelos, roda código/ações.
+- Agno permite encapsular tools como `ReasoningTools`, `YFinanceTools` etc. :contentReference[oaicite:4]{index=4}.
+
+### 4. Memory / Context Manager → `memory/`, `knowledge/`, RAG + persistência
+- Garante contexto, histórico e reidratação incremental.
+- Agno oferece memória embutida, long‑term storage, RAG capabilities :contentReference[oaicite:5]{index=5}.
+
+### 5. Feedback Loop / Self‑reflection → `orchestrator_core`, `teams/`, `crews`
+- Re-avalia subtarefas, ajusta plano se necessário (falhas, revisões).
+- Veja exemplos de CrewAI, MetaGPT, AutoGen, Magentic-One que iteram planos dinamicamente :contentReference[oaicite:6]{index=6}.
+
+---
+
+## 📁 Exemplo de Estrutura (Agno-style)
+
+# 🧱 Mapeamento Estrutural: Framework Agno + Camadas de Agentes
+
+Este documento explica como o código-fonte do framework **Agno** (open source, Python)** é organizado em camadas lógicas que espelham o fluxo de um agente orquestrador tipo Copilot. Isso ajuda você a migrar ou replicar em TypeScript/ModelFusion.
+
+> Baseline: **Agno é um framework completo**, agnóstico a modelos, com suporte a ferramentas, memória, reasoning e execução incremental :contentReference[oaicite:1]{index=1}.
+
+---
+
+## 🧭 Etapas Orquestração & Mapeamento de Pastas
+
+### 1. Parser / Interpreter → `agent/`
+- Interpreta input, sistema de prompts e comandos do usuário.
+- Em Agno: classe `Agent` inicializa modelo, ferramentas e instruções :contentReference[oaicite:2]{index=2}.
+
+### 2. Planner → `tools/reasoning/`, `planner.py` (se existir)
+- Responsável por decompor prompt em subtarefas, definir dependências.
+- Em Agno: uso de Toolkit de Reasoning ou custom tools adicionadas no instanciamento do agente :contentReference[oaicite:3]{index=3}.
+
+### 3. Executor → `tools/`, serviços (`services/`)
+- Executa ferramentas (tool-use), chama modelos, roda código/ações.
+- Agno permite encapsular tools como `ReasoningTools`, `YFinanceTools` etc. :contentReference[oaicite:4]{index=4}.
+
+### 4. Memory / Context Manager → `memory/`, `knowledge/`, RAG + persistência
+- Garante contexto, histórico e reidratação incremental.
+- Agno oferece memória embutida, long‑term storage, RAG capabilities :contentReference[oaicite:5]{index=5}.
+
+### 5. Feedback Loop / Self‑reflection → `orchestrator_core`, `teams/`, `crews`
+- Re-avalia subtarefas, ajusta plano se necessário (falhas, revisões).
+- Veja exemplos de CrewAI, MetaGPT, AutoGen, Magentic-One que iteram planos dinamicamente :contentReference[oaicite:6]{index=6}.
+
+---
+
+## 📁 Exemplo de Estrutura (Agno-style)
+
+
+---
+
+## ✅ Porque isso é estratégico pra replicas
+
+- **Parser / Interpreter** é a **interface semântica** que espelha a `command‑r`, só que como objeto, não modelo.
+- **Planner + Executor** = camada de orquestração acima do modelo, que escolhe qual tool (modelo) chamar.
+- **Memory** define escopo contextual incremental, essencial para reasoning consistente.
+- **Feedback loop / orchestrator_core** garante auto-correção e chunking adaptativo.
+
+Essa lógica é a que diferencia Camada Copilot‑like de um simples LLM ou “command‑r” isolado.
+
+---
+
+## 🔗 Links de referência
+
+- Agno overview + uso de ferramentas e memória :contentReference[oaicite:7]{index=7}
+- Arquitetura orquestrador multi‑agente: CrewAI e AutoGen :contentReference[oaicite:8]{index=8}
+- Model orchestration patterns: Larchain, ODI, Magentic-One, etc. :contentReference[oaicite:9]{index=9}
+
+---
+
+## 📌 Planejamento inicial
+
+1. Identificar classes Python em `agent/`, `tools/`, `memory/`, `orchestrator/`.
+2. Documentar cada função/classe com comentários explicativos do propósito (Planner vs Executor vs Memory).
+3. Migrar chunk por chunk para TypeScript/ModelFusion:
+   - Ex: `agent.ts` que carrega modelo + lista de ferramentas
+   - `planner.ts`, `executor.ts`, `memory.ts`, `orchestrator.ts`
+4. Reler e validar com testes unitários (como testfile que mencionamos).
+
+---
+
+## 🔍 Nota final
+
+Este é um **mapa conceitual** ligando código-fonte à lógica de orquestração de agentes. O objetivo é te permitir navegar no Agno, entender onde cada passo do Copilot Orchestrator acontece e, sobretudo, traduzir essa arquitetura para tua stack TypeScript usando ModelFusion + boas práticas Slice/ALIVE.
+
+— Fim do guia —
+
+https://github.com/agno-agi/agno/tree/main

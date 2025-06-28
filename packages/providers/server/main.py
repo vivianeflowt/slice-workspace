@@ -27,6 +27,7 @@ from fastapi.responses import JSONResponse
 from server.api.classify import router as classify_router
 from server.api.embed import router as embed_router
 from server.api.pos_tag import router as pos_tag_router
+from server.api.openai import router as openai_router
 from server.constants import (
     DEBUG_MODE,
     DEFAULT_MODELS,
@@ -117,6 +118,7 @@ async def log_requests(request: Request, call_next):
 app.include_router(classify_router)
 app.include_router(embed_router)
 app.include_router(pos_tag_router)
+app.include_router(openai_router)
 
 
 # =============================================================================

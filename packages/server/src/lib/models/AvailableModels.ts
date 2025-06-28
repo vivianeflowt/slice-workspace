@@ -2,11 +2,12 @@ import { DEEPSEEK_MODELS, DeepseekModel } from '../../providers/ai/deepseek/Deep
 import { OLLAMA_MODELS, OllamaModel } from '../../providers/ai/ollama/OllamaModels';
 import { OPENAI_MODELS, OpenaiModel } from '../../providers/ai/openai/OpenAIModels';
 import { PERPLEXITY_MODELS, PerplexityModel } from '../../providers/ai/perplexity/PerplexityModels';
+import { CUSTOM_MODELS, CustomModel } from '../../providers/ai/custom/CustomModels';
 
-export type AvailableModel = DeepseekModel | OllamaModel | OpenaiModel | PerplexityModel;
+export type AvailableModel = DeepseekModel | OllamaModel | OpenaiModel | PerplexityModel | CustomModel;
 
 export interface ModelInfo {
-  readonly provider: 'deepseek' | 'ollama' | 'openai' | 'perplexity';
+  readonly provider: 'deepseek' | 'ollama' | 'openai' | 'perplexity' | 'custom';
   readonly model: string;
   readonly displayName: string;
 }
@@ -53,6 +54,15 @@ PERPLEXITY_MODELS.forEach((model) => {
   });
 });
 
+// Custom models
+CUSTOM_MODELS.forEach((model) => {
+  models.set(normalizeModelKey(model), {
+    provider: 'custom',
+    model,
+    displayName: `Custom ${model.charAt(0).toUpperCase() + model.slice(1)}`,
+  });
+});
+
 export class AvailableModels {
   static getAllModels(): ModelInfo[] {
     return Array.from(models.values());
@@ -77,7 +87,7 @@ export class AvailableModels {
   }
 
   static getProviders(): ModelInfo['provider'][] {
-    return ['deepseek', 'ollama', 'openai', 'perplexity'];
+    return ['deepseek', 'ollama', 'openai', 'perplexity', 'custom'];
   }
 
   static searchModels(query: string): ModelInfo[] {

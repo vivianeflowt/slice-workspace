@@ -1,89 +1,233 @@
-# 📘 PROJECT.md — Servidor de Providers HuggingFace (CPU-only)
+# 📘 `PROJECT.md` — Servidor Local de Modelos NLP (HuggingFace, CPU-only, Estilo OpenAI)
 
-> Este servidor faz parte do ecossistema Slice/ALIVE e serve modelos HuggingFace que **não estão disponíveis no Ollama**, rodando localmente em Python, sempre em CPU. Ele é pensado para NLP em português, com foco em classificadores, embeddings e tarefas linguísticas plugáveis.
-
-## 🚀 Objetivo
-
-- Servir modelos de NLP que **não estão no Ollama** (ex: classificadores, embeddings, POS tagging, NER, etc).
-- Foco em português, mas extensível para outros idiomas.
-- Garantir que rode 100% em CPU, mesmo em máquinas com GPU.
-- Manter compatibilidade máxima com o padrão OpenAI API (quando possível), facilitando integração.
-
-## ⚠️ Por que este servidor é separado do Command-R?
-
-- **Isolamento de dependências:** evita conflitos de libs e versões entre modelos HuggingFace e o core Command-R.
-- **Estabilidade:** cada servidor evolui e escala de forma independente.
-- **Plugabilidade:** permite adicionar/remover modelos alternativos sem afetar o Command-R.
-- **Especialização:** este servidor é otimizado para tarefas NLP e experimentação rápida.
-
-## 🧩 Estrutura Modular — Princípio Central
-
-### Separe por Funcionalidade, Nunca por Nome de Modelo
-
-> **Regra de ouro:**
-> Organize o código por **função** (ex: classificação, embeddings, POS tagging), nunca por nome de modelo (ex: `bert_base_portuguese.py`).
->
-> **Por quê?**
-> - Facilita trocar/adicionar modelos para a mesma função sem quebrar nada.
-> - O foco é o que o sistema faz, não como faz.
-> - Permite evolução incremental: novas funções entram sem afetar as existentes.
-> - Evita acoplamento: o código depende de interfaces funcionais, não de modelos fixos.
-
-#### Exemplo de estrutura recomendada:
-
-```
-server/
-├── api/
-│   ├── classify.py         # Rota para classificação
-│   ├── embed.py            # Rota para embeddings
-│   └── pos_tag.py          # Rota para POS tagging
-├── models/                 # Schemas Pydantic
-├── providers/
-│   ├── classify/           # Providers de classificação (um ou mais modelos)
-│   │   ├── huggingface.py  # Wrapper para modelos HuggingFace de classificação
-│   │   └── ...
-│   ├── embed/              # Providers de embeddings
-│   │   ├── huggingface.py
-│   │   └── ...
-│   └── pos_tag/            # Providers de POS tagging
-│       ├── huggingface.py
-│       └── ...
-├── services/               # Orquestração por função (ex: roteamento, fallback)
-├── utils/                  # Funções auxiliares e helpers
-├── constants.py            # Configurações centralizadas (modelos, timeouts, etc)
-└── main.py                 # FastAPI runner
-```
-
-#### O que evitar (anti-padrão):
-- Pastas ou arquivos nomeados por modelo (ex: `bert_base_portuguese.py`, `distilbert_sentiment.py`).
-- Lógica acoplada a um modelo específico.
-- Duplicação de código entre funções semelhantes.
-
-#### Benefícios práticos:
-- Trocar o modelo de classificação = só mudar o provider, sem alterar rotas ou serviços.
-- Adicionar novo modelo de embeddings não afeta API nem testes de classificação.
-- O código fica mais legível, testável, plugável e fácil de evoluir.
-- Permite onboarding rápido de novos devs ou IAs.
-
-#### Analogia:
-> Pense em cada função (classificação, embedding, etc) como uma tomada universal: qualquer modelo compatível pode ser plugado ali, sem precisar trocar a fiação da casa.
-
-## 🛠️ Comandos via Taskfile
-
-- `task install` → instala dependências e baixa modelos HuggingFace.
-- `task run` → inicia servidor (porta 5115).
-- `task test` → executa testes automatizados.
-
-## ✅ Princípios do Projeto
-
-- **Testabilidade:** toda função tem teste automatizado.
-- **Validação:** toda rota tem schema validado (Pydantic).
-- **CPU-only:** nenhum modelo depende de GPU.
-- **Zero número mágico:** todas as configs centralizadas em `constants.py`.
-- **Plugabilidade:** adicionar/remover modelos ou funções nunca quebra o sistema.
-- **Documentação incremental:** cada módulo/função tem docstring clara.
+> Estrutura para rodar modelos de NLP (foco em português) fora do Ollama, 100% em CPU, compatível com a API da OpenAI. Modular, leve e fácil de estender.
 
 ---
 
-> **Resumo:**
-> Este servidor é plugável, incremental e seguro. Siga a estrutura funcional, escreva testes e docstrings, e nunca acople lógica a um modelo específico. Assim, qualquer dev ou IA pode evoluir o projeto sem medo e com rastreabilidade total.
+## 🎯 Objetivo
+
+- Servir modelos da Hugging Face não disponíveis no Ollama.
+- Garantir compatibilidade com payloads OpenAI (onde fizer sentido).
+- Operar totalmente em CPU, inclusive em máquinas com GPU.
+- Separar funções por *tipo de tarefa*, e não por modelo.
+
+---
+
+## 🤔 Por que esse servidor é isolado?
+
+| Motivo | Vantagem |
+| --- | --- |
+| **Evitar conflitos** | Instâncias separadas para libs/modelos específicos |
+| **Facilidade de teste** | Rodar funções independentes, sem dependência cruzada |
+| **Plugabilidade** | Substituir/adicionar modelos sem reescrever o sistema |
+| **Escalabilidade** | Permite distribuir tarefas por máquina sem centralizar tudo |
+| **Independência** | Funciona sem Cursor, Ollama, Docker ou qualquer stack fechado |
+
+---
+
+## 🧩 Estrutura de Diretório Recomendada
+
+```
+server/
+├── api/                # Endpoints FastAPI por função (classify, embed, etc)
+│   ├── classify.py
+│   ├── embed.py
+│   └── pos_tag.py
+├── providers/          # Implementações específicas dos modelos
+│   ├── classify/
+│   ├── embed/
+│   └── pos_tag/
+├── services/           # Orquestrações e lógica de negócio
+├── models/             # Schemas Pydantic (v2)
+├── utils/              # Helpers reutilizáveis
+├── constants.py        # Configs gerais, modelos, timeouts
+└── main.py             # FastAPI app runner
+```
+
+---
+
+## 🧠 Convenção Central
+
+> **Separar por tarefa**, não por modelo.
+
+**Exemplo certo:**
+
+- `embed.py` → usa `Ernie`, `multilingual-e5` ou outro embedding.
+
+**Exemplo errado:**
+
+- `bert_base_pt.py`, `roberta_embedder.py`, etc.
+
+---
+
+## ⚙️ Taskfile
+
+```bash
+task install     # Instala dependências e baixa os modelos
+task run         # Roda o servidor na porta 5115
+task test        # Executa testes automatizados
+```
+
+---
+
+## 🔗 Padrão OpenAI: Payloads e Rotas
+
+### Compatibilidade direta:
+
+- `POST /v1/chat/completions`
+- `POST /v1/embeddings`
+- `POST /v1/classifications` *(rota extra, segue padrão JSON)*
+
+### Payload de exemplo:
+
+```json
+{
+  "model": "nome-do-modelo",
+  "input": "texto em português para análise",
+  "options": {
+    "temperature": 0.7,
+    "top_p": 0.9
+  }
+}
+```
+
+### Exemplo de retorno para embeddings:
+
+```json
+{
+  "data": [
+    {
+      "embedding": [0.123, 0.345, ...],
+      "index": 0
+    }
+  ],
+  "model": "multilingual-e5",
+  "object": "embedding"
+}
+```
+
+---
+
+## 🧱 Princípios Técnicos
+
+| Princípio | Descrição |
+| --- | --- |
+| Testável | Cada função é testável isoladamente |
+| Pydantic v2 | Todas as rotas validadas com schemas robustos |
+| Sem mágica | Sem globals ou configs escondidas |
+| Plugável | Fácil trocar/adicionar funções sem quebrar nada |
+| Explicável | Código comentado, com docstrings e convenções visíveis |
+
+---
+
+## 🧠 Analogia mental
+
+Cada função é como uma **tomada universal**: o agente IA (ou humano) pluga o modelo e ele funciona. Quer trocar o modelo? Só muda o plug — sem refazer a rede.
+
+---
+
+## 💡 Casos de uso previstos
+
+- Classificação de textos (ex: positivo, neutro, negativo)
+- Extração de entidades nomeadas (NER)
+- Geração de embeddings
+- Tagging de partes do discurso (POS)
+- Detecção de linguagem
+- Parafraseamento (futuro)
+- Correção gramatical (futuro)
+
+---
+
+## ✅ Compatibilidade mínima
+
+| Item | Requisito |
+| --- | --- |
+| Python | >= 3.10 |
+| Framework | FastAPI |
+| Tipagem | Pydantic v2 |
+| NLP base | `transformers` da Hugging Face |
+| Runner | Taskfile |
+
+---
+
+## 📍 TODO futuro
+
+- [ ] Adicionar logging por agente
+- [ ] Integração com roteador inteligente (model routing)
+- [ ] Suporte a RAG leve (via context injection)
+- [ ] Armazenamento local de histórico (DuckDB compatível)
+- [ ] Filtro semântico de entrada (pré-processamento)
+
+---
+
+## 📁 Diretórios externos opcionais
+
+| Diretório | Uso |
+| --- | --- |
+| `models/` | Pode ser externo via env (`MODELS_PATH`) |
+| `outputs/` | Logs, resultados, cache (`OUTPUT_PATH`) |
+
+---
+
+## 🔐 Segurança
+
+- Requisições limitadas por IP (opcional)
+- Logging de prompt (opcional, por agente)
+- Headers de CORS configurados
+- Autenticação por token opcional para endpoints
+
+---
+
+## 📎 Exemplo de uso real (no terminal)
+
+```bash
+curl http://localhost:5115/v1/classifications   -H "Content-Type: application/json"   -d '{
+    "model": "classifier-pt-mini",
+    "input": "o atendimento foi horrível",
+    "options": { "top_p": 0.8 }
+  }'
+```
+
+Resposta esperada:
+
+```json
+{
+  "label": "negativo",
+  "confidence": 0.92,
+  "model": "classifier-pt-mini"
+}
+```
+
+---
+
+## 🗂️ Modo dev (para agentes)
+
+> Agentes externos podem acessar esse servidor como se fosse uma OpenAI local.
+
+- Endpoint: `http://localhost:5115/v1/...`
+- Payload: igual ao OpenAI
+- Pode rodar em múltiplas máquinas com modelos distintos
+
+---
+
+## 📦 Lista de modelos suportados (iniciais)
+
+| Tarefa | Modelo HuggingFace |
+| --- | --- |
+| Embeddings | `intfloat/multilingual-e5-small` |
+| Classificação | `pierreguillou/bert-base-cased-sentiment-analysis` |
+| POS Tagging | `gilf/flaubert-pt-pos` *(a confirmar)* |
+| NER | `pierreguillou/ner-bert-portuguese-cased` |
+| Detecção de língua | `papluca/xlm-roberta-base-language-detection` |
+
+---
+
+## 📌 Observações finais
+
+- Ideal para rodar em paralelo com seu cluster principal.
+- Pode funcionar em conjunto com servidores Ollama, DeepSeek, Perplexity, etc.
+- Arquitetado para escalar horizontalmente ou rodar em containers isolados.
+
+---
+
+> Criado para Viviane — visão técnica e liberdade de agentes. 🧠🔗

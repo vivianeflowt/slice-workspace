@@ -11,6 +11,7 @@ Princípios CONCEPTS.md:
 
 import logging
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 import shutil
 import time
 from pathlib import Path
@@ -414,15 +415,8 @@ def cleanup_cache() -> Dict[str, Any]:
 
 
 def get_model_info(model_name: str) -> Dict[str, Any]:
-    """
-    Obtém informações detalhadas sobre um modelo.
-
-    Args:
-        model_name: Nome do modelo
-
-    Returns:
-        Dicionário com informações do modelo
-    """
+    import os
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Desativa GPU se tiver
     try:
         config = AutoConfig.from_pretrained(
             model_name,
@@ -432,9 +426,7 @@ def get_model_info(model_name: str) -> Dict[str, Any]:
 
         return {
             "name": model_name,
-            "architecture": (
-                config.architectures[0] if config.architectures else "unknown"
-            ),
+            "architecture": config.architectures[0] if config.architectures else "unknown",
             "vocab_size": getattr(config, "vocab_size", "unknown"),
             "hidden_size": getattr(config, "hidden_size", "unknown"),
             "num_layers": getattr(config, "num_hidden_layers", "unknown"),

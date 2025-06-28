@@ -2,32 +2,98 @@ version: '3'
 
 tasks:
   install:
-    desc: Instala dependências e baixa modelos
+    desc: "Instalar dependências e baixar modelos necessários"
     cmds:
       - pdm install
-      - python scripts/download_models.py || true
+      - task: download-models
+    silent: false
 
-  start:
-    desc: Inicia o servidor local
+  download-models:
+    desc: "Baixar modelos Command-R necessários"
     cmds:
-      - pdm run python -m server.main
+      - echo "Baixando modelos Command-R..."
+      - mkdir -p {{.MODELS_DIR}}
+      - python scripts/download_models.py || true
+      - echo "Modelos baixados com sucesso!"
+    vars:
+      MODELS_DIR: "/media/data/models"
+    silent: false
 
   dev:
-    desc: Inicia o servidor em modo desenvolvimento (reload)
+    desc: "Iniciar servidor em modo desenvolvimento"
     cmds:
-      - pdm run uvicorn server.main:app --reload
+      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 5143 --reload
+    silent: false
+
+  start:
+    desc: "Iniciar servidor em modo produção"
+    cmds:
+      - pdm run uvicorn server.main:app --host 0.0.0.0 --port 5143
+    silent: false
 
   test:
-    desc: Roda testes unitários
+    desc: "Executar todos os testes"
     cmds:
-      - pdm run pytest tests/
+      - pdm run pytest tests/ -v
+    silent: false
+
+  test-watch:
+    desc: "Executar testes em modo watch"
+    cmds:
+      - pdm run pytest-watch tests/
+    silent: false
 
   lint:
-    desc: Roda linter (ruff)
+    desc: "Executar linting e formatação"
     cmds:
-      - pdm run ruff check .
+      - pdm run ruff check server/ tests/
+      - pdm run black server/ tests/ --check
+      - pdm run mypy server/
+    silent: false
+
+  format:
+    desc: "Formatar código automaticamente"
+    cmds:
+      - pdm run black server/ tests/
+      - pdm run ruff check server/ tests/ --fix
+    silent: false
 
   clean:
-    desc: Remove arquivos temporários e cache
+    desc: "Limpar arquivos temporários"
     cmds:
-      - rm -rf __pycache__ .pytest_cache .pdm.toml .pdm.lock
+      - rm -rf .pytest_cache/
+      - rm -rf htmlcov/
+      - rm -rf .coverage
+      - rm -rf __pycache__/
+      - find . -name "*.pyc" -delete
+      - find . -name "__pycache__" -type d -exec rm -rf {} +
+    silent: false
+
+  check:
+    desc: "Verificar se tudo está funcionando"
+    cmds:
+      - task: lint
+      - task: test
+    silent: false
+
+  docs:
+    desc: "Gerar documentação"
+    cmds:
+      - pdm run mkdocs serve
+    silent: false
+
+  build:
+    desc: "Build do projeto"
+    cmds:
+      - task: clean
+      - task: check
+      - pdm build
+    silent: false
+
+  setup:
+    desc: "Setup completo do projeto"
+    cmds:
+      - task: install
+      - task: check
+      - echo "Setup completo! Use 'task dev' para iniciar o servidor."
+    silent: false

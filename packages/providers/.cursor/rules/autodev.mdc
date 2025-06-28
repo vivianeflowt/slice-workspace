@@ -1,7 +1,7 @@
 ---
 description:
 globs:
-alwaysApply: true
+alwaysApply: false
 ---
 # 🧠 SYSTEM PROMPT – Execução Autônoma, Chunk a Chunk, com Validação
 

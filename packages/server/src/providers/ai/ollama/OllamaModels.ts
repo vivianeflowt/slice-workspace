@@ -59,7 +59,7 @@ export const OLLAMA_MODELS = [
   'qwen2.5-coder:7b', // Qwen2.5 Coder 7B — modelo de código, instrução, tasks técnicas
   'llama3.1:8b', // Llama 3.1 8B — variante, tasks gerais,
   'dolphin-mixtral:8x7b',
-  'vicuna:13b'
+  'vicuna:13b',
 ] as const;
 
 export type OllamaModel = (typeof OLLAMA_MODELS)[number];

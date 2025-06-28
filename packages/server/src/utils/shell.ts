@@ -163,7 +163,9 @@ export function shellWriteFile(path: string, data: string) {
 export function shellGlob(pattern: string | string[], options: any = {}): string[] {
   if (!pattern || (typeof pattern !== 'string' && !Array.isArray(pattern))) return [];
   // Corrige o tipo de retorno para string[]
-  return fg.sync(pattern, options).map((entry: any) => typeof entry === 'string' ? entry : entry.path);
+  return fg
+    .sync(pattern, options)
+    .map((entry: any) => (typeof entry === 'string' ? entry : entry.path));
 }
 
 export function shellRm(path: string) {

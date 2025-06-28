@@ -264,15 +264,24 @@ describe('matchValue (unified API)', () => {
   });
   it('mode token-permutation returns match by tokens in any order', () => {
     expect(matchValue('Silva João', options, { mode: 'token-permutation' })).toBe('Silva João');
-    expect(matchValue('João da Silva', options, { mode: 'token-permutation' })).toBe('João da Silva');
-    expect(matchValue('da Silva João', options, { mode: 'token-permutation' })).toBe('João da Silva');
+    expect(matchValue('João da Silva', options, { mode: 'token-permutation' })).toBe(
+      'João da Silva',
+    );
+    expect(matchValue('da Silva João', options, { mode: 'token-permutation' })).toBe(
+      'João da Silva',
+    );
   });
   it('topN returns list of matches', () => {
-    expect(matchValue('token', options, { mode: 'normalized', topN: 2 })).toEqual(['token', 'Token']);
-    expect((matchValue('tok', options, { mode: 'fuzzy', topN: 2 }) as string[])).toHaveLength(2);
+    expect(matchValue('token', options, { mode: 'normalized', topN: 2 })).toEqual([
+      'token',
+      'Token',
+    ]);
+    expect(matchValue('tok', options, { mode: 'fuzzy', topN: 2 }) as string[]).toHaveLength(2);
   });
   it('fallbackTo enables fallback between modes', () => {
-    expect(matchValue('TOKEN', options, { mode: 'strict', fallbackTo: ['normalized'] })).toBe('Token');
+    expect(matchValue('TOKEN', options, { mode: 'strict', fallbackTo: ['normalized'] })).toBe(
+      'Token',
+    );
     expect(
       matchValue('João da Silva', options, { mode: 'fuzzy', fallbackTo: ['token-permutation'] }),
     ).toBe('João da Silva');
@@ -280,9 +289,9 @@ describe('matchValue (unified API)', () => {
   it('respects minSimilarity and minTokenRatio', () => {
     expect(matchValue('tokne', options, { mode: 'fuzzy', minSimilarity: 0.95 })).toBe('tokne');
     expect(matchValue('tokan', options, { mode: 'fuzzy', minSimilarity: 0.95 })).toBeUndefined();
-    expect(matchValue('João da Silva', options, { mode: 'token-permutation', minTokenRatio: 1 })).toBe(
-      'João da Silva',
-    );
+    expect(
+      matchValue('João da Silva', options, { mode: 'token-permutation', minTokenRatio: 1 }),
+    ).toBe('João da Silva');
     expect(matchValue('João Silva', options, { mode: 'token-permutation', minTokenRatio: 1 })).toBe(
       'Silva João',
     );

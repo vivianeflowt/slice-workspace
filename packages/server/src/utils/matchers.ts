@@ -2,7 +2,10 @@ import { distance as levenshteinDistance } from 'fastest-levenshtein';
 
 /** Remove accents and lowercase the string */
 function normalize(text: string): string {
-  return text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+  return text
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase();
 }
 
 /** Unique character set profile */

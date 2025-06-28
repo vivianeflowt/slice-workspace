@@ -18,7 +18,10 @@ export async function readJsonFile<T = any>(filePath: string): Promise<T> {
 /**
  * Serialize and write an object as JSON asynchronously.
  */
-export async function writeJsonFile<T = Record<string, unknown>>(filePath: string, data: T): Promise<void> {
+export async function writeJsonFile<T = Record<string, unknown>>(
+  filePath: string,
+  data: T,
+): Promise<void> {
   try {
     const json = JSON.stringify(data);
     if (typeof data === 'object' && data !== null) {

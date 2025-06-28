@@ -7,7 +7,6 @@ import { isDevelopment } from './utils/enviroments';
 import { exportEndpoints } from './utils/endpoints';
 import path from 'path';
 
-
 const server = new Server(app);
 
 const SERVER_PORT = app.get('port') || 4000;

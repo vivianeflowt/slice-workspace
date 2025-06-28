@@ -89,7 +89,7 @@ export abstract class AbstractAIProvider<TOptions = any> {
   protected handleError(error: unknown, context: string): never {
     console.error(`[${this.name}] Error in ${context}:`, error);
     throw new Error(
-      `[${this.name}] ${context} failed: ${error instanceof Error ? error.message : String(error)}`
+      `[${this.name}] ${context} failed: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 }

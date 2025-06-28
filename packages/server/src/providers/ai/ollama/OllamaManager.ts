@@ -113,7 +113,7 @@ export class OllamaManager {
       const modelsToConsiderInstall = sortModelsBySize(
         OLLAMA_MODELS.filter(
           (origName) => !installedCanonicalNames.includes(OllamaManager.getCanonicalName(origName)),
-        )
+        ),
       );
 
       for (const nameFromOllamaModels of modelsToConsiderInstall) {
@@ -188,7 +188,10 @@ export class OllamaManager {
         .filter(Boolean)
         .map(OllamaManager.getCanonicalName);
     } catch (err) {
-      logger.error('[Ollama][CLI] Erro ao listar modelos via CLI:', err instanceof Error ? err.message : String(err));
+      logger.error(
+        '[Ollama][CLI] Erro ao listar modelos via CLI:',
+        err instanceof Error ? err.message : String(err),
+      );
       return [];
     }
   }
@@ -203,7 +206,9 @@ export class OllamaManager {
       execSync(`ollama rm ${canonicalName}`, { stdio: 'ignore' });
       return true;
     } catch (err) {
-      logger.warn(`[Ollama][CLI] Erro ao deletar ${canonicalName}: ${err instanceof Error ? err.message : String(err)}`);
+      logger.warn(
+        `[Ollama][CLI] Erro ao deletar ${canonicalName}: ${err instanceof Error ? err.message : String(err)}`,
+      );
       return false;
     }
   }
@@ -213,19 +218,27 @@ export class OllamaManager {
     if (this.isDownloading) return false;
     const canonicalNameToCheck = OllamaManager.getCanonicalName(nameFromOllamaModels);
     const installedCanonicalNames = await this.safeListModels();
-    if (installedCanonicalNames && installedCanonicalNames.includes(canonicalNameToCheck)) return false;
+    if (installedCanonicalNames && installedCanonicalNames.includes(canonicalNameToCheck))
+      return false;
     if (USE_TRICKLE && !isTrickleInstalled()) {
-      logger.error('[Ollama][CLI] O utilitário trickle não está instalado. Instale com: sudo apt install trickle');
+      logger.error(
+        '[Ollama][CLI] O utilitário trickle não está instalado. Instale com: sudo apt install trickle',
+      );
       throw new Error('trickle não instalado');
     }
     this.isDownloading = true;
     try {
       logger.info(`[Ollama][CLI] Iniciando download do modelo: ${nameFromOllamaModels}`);
       const tricklePrefix = USE_TRICKLE ? `trickle -d ${TRICKLE_LIMIT_KBPS}` : '';
-      execSync(`${tricklePrefix} ollama pull ${nameFromOllamaModels}`.trim(), { stdio: 'inherit', shell: '/bin/zsh' });
+      execSync(`${tricklePrefix} ollama pull ${nameFromOllamaModels}`.trim(), {
+        stdio: 'inherit',
+        shell: '/bin/zsh',
+      });
       return true;
     } catch (err) {
-      throw new Error(`Falha ao puxar modelo ${nameFromOllamaModels} via CLI: ${err instanceof Error ? err.message : String(err)}`);
+      throw new Error(
+        `Falha ao puxar modelo ${nameFromOllamaModels} via CLI: ${err instanceof Error ? err.message : String(err)}`,
+      );
     } finally {
       this.isDownloading = false;
     }

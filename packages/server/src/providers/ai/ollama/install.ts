@@ -1,1 +1,1 @@
-import { OLLAMA_MODELS } from './OllamaModels'
+import { OLLAMA_MODELS } from './OllamaModels';

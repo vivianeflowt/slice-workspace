@@ -6,7 +6,6 @@ import { OLLAMA_MODELS } from './OllamaModels';
 import { getMaxResponseTokens } from '../../../utils/tokens';
 import { OLLAMA_BASE_URL } from '../../../constants';
 
-
 const OllamaProviderOptionsSchema = GenerateOptionsSchema.omit({
   model: true,
 }).extend({
@@ -61,7 +60,8 @@ export class OllamaProvider extends AbstractAIProvider<OllamaProviderOptions> {
       temperature,
       stream: false,
       options: {
-        num_predict: maxTokens || getMaxResponseTokens(messages.map((m: any) => m.content).join(' ')),
+        num_predict:
+          maxTokens || getMaxResponseTokens(messages.map((m: any) => m.content).join(' ')),
         top_p: topP,
       },
     };

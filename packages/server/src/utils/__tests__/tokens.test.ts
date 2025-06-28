@@ -61,7 +61,9 @@ describe('getMaxResponseTokens', () => {
 
   it('almost hits token limit', () => {
     const nearLimitText = 'X'.repeat(MODEL_MAX_TOKENS - 100);
-    expect(getMaxResponseTokens(nearLimitText, nearLimitText)).toBeGreaterThanOrEqual(MIN_RESPONSE_TOKENS);
+    expect(getMaxResponseTokens(nearLimitText, nearLimitText)).toBeGreaterThanOrEqual(
+      MIN_RESPONSE_TOKENS,
+    );
   });
 
   it('warns if prompt/context is too large', () => {

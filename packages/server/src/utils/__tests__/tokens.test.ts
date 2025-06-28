@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { getMaxResponseTokens } from '../tokens';
 import {
+  getMaxResponseTokens,
   MODEL_MAX_TOKENS,
   DEFAULT_RESPONSE_TOKENS,
   MIN_RESPONSE_TOKENS,
-} from '../../constants/constants';
+} from '../tokens';
 
 const shortText = 'Olá!';
 const longText = 'A'.repeat(2000);
@@ -70,7 +70,7 @@ describe('getMaxResponseTokens', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     getMaxResponseTokens(hugeText, hugeText);
     expect(warnSpy).toHaveBeenCalledWith(
-      '[tokens] Prompt/contexto muito grande, reservando apenas o mínimo de tokens para resposta.',
+      '[tokens] Prompt/context too large, reserving only the minimum response tokens.',
     );
     warnSpy.mockRestore();
   });

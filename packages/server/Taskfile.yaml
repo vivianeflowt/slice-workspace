@@ -1,0 +1,80 @@
+version: '3'
+tasks:
+  prepare:
+    desc: "🔧 Prepara o projeto para instalação"
+    cmds:
+      - echo "🔧 Preparando ambiente do projeto..."
+      # Adicione comandos de preparação aqui (ex: copiar .env.example, checar pré-requisitos)
+
+  install:
+    desc: "📦 Instala todas as dependências"
+    cmds:
+      - pnpm install || npm install || yarn install
+
+  dev:
+    desc: "🚀 Executa em modo desenvolvimento"
+    cmds:
+      - pnpm run dev || npm run dev || yarn dev
+
+  serve:
+    desc: "🌐 Executa em modo produção"
+    cmds:
+      - pnpm run start || npm run start || yarn start
+
+  clean:
+    desc: "🧹 Limpa dependências, caches e temporários"
+    cmds:
+      - rm -rf node_modules dist .turbo .next .cache coverage .eslintcache
+
+  build:
+    desc: "🏗️  Realiza o build do projeto"
+    cmds:
+      - pnpm run build || npm run build || yarn build
+
+  format:
+    desc: "🎨 Formata o código-fonte"
+    cmds:
+      - pnpm run format || npm run format || yarn format
+
+  lint:
+    desc: "🔎 Valida o código com linter"
+    cmds:
+      - pnpm run lint || npm run lint || yarn lint
+
+  test:
+    desc: "🧪 Executa testes unitários"
+    cmds:
+      - pnpm run test || npm run test || yarn test
+
+  test-e2e:
+    desc: "🧪🔗 Executa testes de integração/end-to-end"
+    cmds:
+      - pnpm run test:e2e || npm run test:e2e || yarn test:e2e
+
+  docker-build:
+    desc: "🐳 Builda a imagem Docker"
+    cmds:
+      - docker build -t ${IMAGE:-server:latest} .
+
+  docker-push:
+    desc: "📦 Envia a imagem Docker para o registry"
+    cmds:
+      - docker push ${IMAGE:-server:latest}
+
+  help:
+    desc: "🆘 Mostra esta ajuda"
+    cmds:
+      - echo "\nComandos disponíveis:\n"
+      - echo "  🔧  prepare      — Prepara o projeto para instalação"
+      - echo "  📦  install      — Instala todas as dependências"
+      - echo "  🚀  dev          — Executa em modo desenvolvimento"
+      - echo "  🌐  serve        — Executa em modo produção"
+      - echo "  🧹  clean        — Limpa dependências, caches e temporários"
+      - echo "  🏗️   build        — Realiza o build do projeto"
+      - echo "  🎨  format       — Formata o código-fonte"
+      - echo "  🔎  lint         — Valida o código com linter"
+      - echo "  🧪  test         — Executa testes unitários"
+      - echo "  🧪🔗  test-e2e     — Executa testes de integração/end-to-end"
+      - echo "  🐳  docker-build — Builda a imagem Docker"
+      - echo "  📦  docker-push  — Envia a imagem Docker para o registry"
+      - echo "  🆘  help         — Mostra esta ajuda\n"

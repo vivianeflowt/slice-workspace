@@ -53,12 +53,21 @@ export const LENGTH_TO_TOKENS: Record<number, number> = {
  */
 function estimateTokenCount(text: string, sampleLimit = 256): number {
   if (!text) return 0;
-  if (text.length <= 500) return MIN_RESPONSE_TOKENS;
+  if (text.length <= 500) {
+    // Para textos pequenos, usa estimativa simples
+    return Math.ceil(text.length * AVG_TOKEN_RATIO);
+  }
   if (LENGTH_TO_TOKENS[text.length]) return LENGTH_TO_TOKENS[text.length];
-  const sanitizedSample = removerComentariosEspacos(text).slice(0, sampleLimit);
-  const tokensInSample = encode(sanitizedSample).length;
-  const tokenRatio = tokensInSample / sanitizedSample.length || AVG_TOKEN_RATIO;
-  return Math.ceil((text.length * tokenRatio) / 8) * 8;
+
+  try {
+    const sanitizedSample = removerComentariosEspacos(text).slice(0, sampleLimit);
+    const tokensInSample = encode(sanitizedSample).length;
+    const tokenRatio = tokensInSample / sanitizedSample.length || AVG_TOKEN_RATIO;
+    return Math.ceil((text.length * tokenRatio) / 8) * 8;
+  } catch (error) {
+    console.warn('[tokens] Error estimating tokens, using fallback calculation:', error);
+    return Math.ceil(text.length * AVG_TOKEN_RATIO);
+  }
 }
 
 /**
@@ -71,7 +80,11 @@ export function getMaxResponseTokens(
   reservedResponseTokens: number = DEFAULT_RESPONSE_TOKENS,
 ): number {
   const totalInputLength = promptText.length + contextText.length;
-  if (totalInputLength <= 500) return MIN_RESPONSE_TOKENS;
+
+  // Para textos muito pequenos, sempre retorna o mínimo
+  if (totalInputLength <= 500) {
+    return MIN_RESPONSE_TOKENS;
+  }
 
   const promptTokenEstimate = estimateTokenCount(promptText);
   const contextTokenEstimate = estimateTokenCount(contextText);
@@ -79,6 +92,7 @@ export function getMaxResponseTokens(
 
   if (tokensLeft < MIN_RESPONSE_TOKENS) {
     console.warn('[tokens] Prompt/context too large, reserving only the minimum response tokens.');
+    return MIN_RESPONSE_TOKENS;
   }
 
   return Math.max(Math.min(reservedResponseTokens, tokensLeft), MIN_RESPONSE_TOKENS);

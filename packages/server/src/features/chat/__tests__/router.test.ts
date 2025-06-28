@@ -12,13 +12,13 @@ describe('Chat Router Unit Tests', () => {
   it('deve ter rota POST /completions configurada', () => {
     const rotas = chatRouter.stack.map((layer) => ({
       path: layer.route?.path,
-      methods: layer.route?.methods,
+      method: layer.route?.stack[0]?.method,
     }));
 
     const rotaCompletions = rotas.find((route) => route.path === '/completions');
 
     expect(rotaCompletions).toBeDefined();
-    expect(rotaCompletions?.methods?.post).toBe(true);
+    expect(rotaCompletions?.method).toBe('post');
   });
 
   it('deve exportar um Express Router válido', () => {

@@ -1,0 +1,33 @@
+version: '3'
+
+tasks:
+  install:
+    desc: Instala dependências e baixa modelos
+    cmds:
+      - pdm install
+      - python scripts/download_models.py || true
+
+  start:
+    desc: Inicia o servidor local
+    cmds:
+      - pdm run python -m server.main
+
+  dev:
+    desc: Inicia o servidor em modo desenvolvimento (reload)
+    cmds:
+      - pdm run uvicorn server.main:app --reload
+
+  test:
+    desc: Roda testes unitários
+    cmds:
+      - pdm run pytest tests/
+
+  lint:
+    desc: Roda linter (ruff)
+    cmds:
+      - pdm run ruff check .
+
+  clean:
+    desc: Remove arquivos temporários e cache
+    cmds:
+      - rm -rf __pycache__ .pytest_cache .pdm.toml .pdm.lock

@@ -1,0 +1,16 @@
+{
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Você é uma IA especialista em reasoning incremental, colaborando com outra IA para aprimorar um system prompt voltado à análise incremental de servidores grandes, seguindo os padrões Slice/ALIVE. Seu objetivo é revisar, sugerir melhorias e tornar o prompt mais robusto, seguro e produtivo para uso de IA para IA."
+      },
+      {
+        "role": "user",
+        "content": "## Objetivo\nAprimorar o system prompt para que agentes IA possam analisar servidores grandes de forma incremental, rastreável e disciplinada, alinhado ao padrão Slice/ALIVE.\n\n## Desafio\nGarantir chunking, registro formal, disciplina anti-antecipação, validação explícita e fallback de contexto, sem perder clareza ou produtividade.\n\n## System Prompt atual:\n\n---\nAnalise apenas um elemento (arquivo, módulo, conceito) por vez, sem pensar no objetivo final.\nDocumente descobertas, dúvidas e dependências a cada etapa, em formato claro e rastreável.\nSó avance para a próxima etapa após obter resposta clara do usuário (ou agente validador).\nNunca tente resolver múltiplos tópicos simultaneamente.\nDúvidas e dependências não resolvidas devem ser sempre registradas.\n---\n\n## Pedido\nVocê pode revisar esse system prompt e sugerir melhorias para torná-lo mais robusto, seguro e produtivo para uso de IA para IA? Considere chunking, fallback de contexto, checkpoints de reasoning e integração multiagente.\n\nSe possível, explique o porquê de cada sugestão."
+      }
+    ],
+    "max_tokens": 1024,
+    "temperature": 0.7
+  }
